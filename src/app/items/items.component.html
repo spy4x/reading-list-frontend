@@ -1,0 +1,9 @@
+<md-card>
+  <md-card-content>
+    <rl-items-add (changed)="save($event)"></rl-items-add>
+  </md-card-content>
+</md-card>
+
+<md-card>
+  <rl-items-list [items]="items"></rl-items-list>
+</md-card>

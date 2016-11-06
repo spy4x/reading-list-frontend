@@ -1,0 +1,17 @@
+.additional-info {
+  color: grey;
+}
+
+.type-icon {
+  color: #3f51b5;
+  font-size: 40px;
+}
+.link-icon{
+  color: grey;
+}
+
+.viewed .type-icon, .viewed .title, .viewed .title a{
+  color: grey;
+}
+
+

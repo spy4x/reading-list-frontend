@@ -1,0 +1,13 @@
+<md-toolbar color="primary">
+
+  Reading List
+
+  <span class="app-toolbar-filler"></span>
+  <span *ngIf="messageVisible"
+        style="font-size:0.6em; margin-right:15px">
+    Authentication will be here :)
+  </span>
+  <button md-icon-button (click)="messageVisible = !messageVisible">
+    <md-icon>account_circle</md-icon>
+  </button>
+</md-toolbar>

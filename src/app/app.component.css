@@ -1,0 +1,12 @@
+.app-content {
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.app-action {
+  display: inline-block;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}

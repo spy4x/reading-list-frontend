@@ -1,0 +1,46 @@
+<md-list-item [class.viewed]="item.viewed" *ngIf="!editMode">
+
+  <md-icon md-list-avatar class="type-icon">
+    {{getIconByItemType(item.type)}}
+  </md-icon>
+  <h3 md-line class="title">
+    <a (click)="visitURL()" [href]="item.url" target="_blank">
+      {{item.title}}
+    </a>
+  </h3>
+  <p md-line class="additional-info"> {{item.keywords}} </p>
+  <p md-line class="additional-info" *ngIf="item.viewed">
+    viewed {{item.viewedAt | amTimeAgo}}
+  </p>
+
+
+  <button md-icon-button (click)="toggleEdit()">
+    <md-icon>edit</md-icon>
+  </button>
+
+  <button md-icon-button [md-menu-trigger-for]="menu">
+    <md-icon>menu</md-icon>
+  </button>
+
+  <md-menu x-position="before" #menu="mdMenu">
+    <button md-menu-item *ngIf="item.viewed"
+            (click)="markAsUnseen()">
+      Mark as unread
+    </button>
+
+    <button md-menu-item
+            (click)="remove()">
+      Delete
+    </button>
+  </md-menu>
+</md-list-item>
+
+
+<md-list-item *ngIf="editMode">
+  <rl-items-add md-line
+                [item]="item"
+                (changed)="save($event)"
+                (cancel)="toggleEdit()"></rl-items-add>
+</md-list-item>
+
+
