@@ -1,45 +1,72 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
 
 import { Item } from './item.model';
+import { environment } from '../../environments/environment';
+import { AuthService } from '../auth/auth.service';
+import { BehaviorSubject, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class ItemsService {
-  public items: Item[] = new Array<Item>();
+  private _items: Item[];
+  public items: Subject<Item[]> = new BehaviorSubject<Item[]>(null);
 
-  constructor () {
-    this.items.push(new Item({
-      url: 'http://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/',
-      title: 'How to build Angular 2 apps using Observable Data Services - Pitfalls to avoid',
-      priority: 1,
-      type: 'guide',
-      keywords: 'angular,rxjs'
-    }));
-    this.items.push(new Item({
-      url: 'https://www.toptal.com/api-developers/social-network-apis',
-      title: 'Social networks APIs',
-      priority: 3,
-      type: 'article',
-      keywords: 'external-apis'
-    }));
-    this.items.push(new Item({
-      url: 'https://www.youtube.com/watch?v=e6DUrH56g14',
-      title: 'HTTPS vs HTTP',
-      priority: 2,
-      type: 'video',
-      keywords: 'security'
-    }));
+  constructor (private _http: Http, private _auth: AuthService) {
+    this._loadItems();
   }
 
   add (item: {url, title, priority, type, keywords}): void {
-    this.items.push(new Item(item));
+    this
+      ._http
+      .post(environment.apiUrl + 'read-items', JSON.stringify(item), this._auth.getRequestOptions())
+      .subscribe((res: Response) => {
+        this._items.push(new Item(res.json()));
+      });
   }
 
   update (item: Item, changes: any): void {
-    Object.assign(item, changes);
+    this
+      ._http
+      .put(`${environment.apiUrl}read-items/${item._id}`, JSON.stringify(changes), this._auth.getRequestOptions())
+      .subscribe((res: Response) => {
+        if (res.ok) {
+          Object.assign(item, changes);
+        }
+      });
   }
 
   remove (item: Item): void {
-    this.items.splice(this.items.indexOf(item), 1);
+    this._http
+      .delete(`${environment.apiUrl}read-items/${item._id}`, this._auth.getRequestOptions())
+      .subscribe((res: Response) => {
+        if (res.ok) {
+          this._items.splice(this._items.indexOf(item), 1);
+          // this.items.next(this._items);
+        }
+        console.log('remove - res', res);
+      });
+  }
+
+  // Private methods
+
+  private _loadItems (): void {
+    this._auth.user.subscribe(user => {
+      if (user) {
+        this._http
+          .get(environment.apiUrl + 'read-items', this._auth.getRequestOptions())
+          .subscribe((res: Response) => {
+            this._items = new Array<Item>();
+            let items = res.json();
+            for (let item of items) {
+              this._items.push(new Item(item));
+            }
+            this.items.next(this._items);
+          });
+      } else {
+        this._items = new Array<Item>();
+        this.items.next(this._items);
+      }
+    });
   }
 
 }

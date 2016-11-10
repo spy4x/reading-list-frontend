@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ItemsService } from './items.service';
 import { Item } from './item.model';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'rl-items',
@@ -9,10 +10,12 @@ import { Item } from './item.model';
   styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
-  items: Item[];
+  items: Item[] = new Array<Item>();
+  userAuthenticated: Boolean;
 
-  constructor (private service: ItemsService) {
-    this.items = service.items;
+  constructor (private _service: ItemsService, private _auth: AuthService) {
+    this._service.items.subscribe(items => this.items = items);
+    this._auth.user.subscribe(user => this.userAuthenticated = !!user);
   }
 
   ngOnInit () {
@@ -20,7 +23,7 @@ export class ItemsComponent implements OnInit {
 
   save (data: {title, url, priority, type, keywords}): void {
     // console.log('data in ItemsComponent:', data);
-    this.service.add(data);
+    this._service.add(data);
   }
 
 }

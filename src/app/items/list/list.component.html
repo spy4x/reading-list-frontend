@@ -1,3 +1,10 @@
 <md-list>
+  <h4 *ngIf="items && !items.length" align="center">
+    No items yet. Create them using form above
+  </h4>
+  <!--<div *ngIf="items.length && !filteredItems.length" align="center">-->
+  <!--  <h3>These aren't the droids you're looking for</h3>-->
+  <!--  <img src="../../../assets/obi-these-are-not-droids.jpg" alt="Obi Wan Kenobi"/>-->
+  <!--</div>-->
   <rl-items-item *ngFor="let item of items" [item]="item"></rl-items-item>
 </md-list>

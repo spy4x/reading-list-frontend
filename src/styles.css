@@ -9,3 +9,7 @@ body {
 md-card {
   margin: 20px;
 }
+
+.img-circle {
+  border-radius: 50%;
+}
