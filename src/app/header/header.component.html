@@ -3,11 +3,16 @@
   Reading List
 
   <span class="app-toolbar-filler"></span>
-  <span *ngIf="messageVisible"
-        style="font-size:0.6em; margin-right:15px">
-    Authentication will be here :)
-  </span>
-  <button md-icon-button (click)="messageVisible = !messageVisible">
-    <md-icon>account_circle</md-icon>
-  </button>
+  <div *ngIf="user" class="user-panel">
+    <img [src]="user.avatar" class="user-avatar img-circle"/>
+    <span class="user-name">
+    {{user.name}}
+      </span>
+    <button md-icon-button (click)="signOut()" class="user-sign-out">
+      <md-icon>exit_to_app</md-icon>
+    </button>
+
+  </div>
+
+  <a *ngIf="!user" [href]="authUrl" md-button>Sign in with Google</a>
 </md-toolbar>

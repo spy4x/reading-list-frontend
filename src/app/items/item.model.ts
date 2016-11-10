@@ -1,10 +1,13 @@
+import { User } from '../auth/user.model';
 export class Item {
 
+  public _id: string;
   public url: string;
   public title: string;
   public priority: number = 1;
   public type: string = 'article';
   public keywords: string;
+  public readonly owner: User;
   private _viewed: boolean;
   private _viewedAt: Date;
 

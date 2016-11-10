@@ -2,3 +2,16 @@
 .app-toolbar-filler {
   flex: 1 1 auto;
 }
+
+.user-panel{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: center;
+}
+
+.user-panel .user-name{
+  margin: 0 10px
+}
