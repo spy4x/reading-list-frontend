@@ -1,5 +1,7 @@
 # ReadingList
 
+[ ![Codeship Status for antonshubin/reading-list](https://app.codeship.com/projects/295ceff0-893d-0134-c96d-566d2d10b6b9/status?branch=master)](https://app.codeship.com/projects/184160)
+
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.18.
 
 ## Init
