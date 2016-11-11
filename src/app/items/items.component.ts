@@ -22,7 +22,6 @@ export class ItemsComponent implements OnInit {
   }
 
   save (data: {title, url, priority, type, keywords}): void {
-    // console.log('data in ItemsComponent:', data);
     this._service.add(data);
   }
 

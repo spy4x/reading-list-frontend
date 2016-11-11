@@ -1,12 +1,4 @@
-<md-card *ngIf="!userAuthenticated" align="center" class="not-signed-in-card">
-  <img md-card-image src="../../assets/vader-you-are-not-a-jedi-yet.jpg"
-       alt="You aren't signed in">
-  <md-card-content>
-    <h2>Sign in on the top right</h2>
-  </md-card-content>
-</md-card>
-
-<div *ngIf="userAuthenticated">
+<div>
   <md-card>
     <md-card-content>
       <rl-items-add (changed)="save($event)"></rl-items-add>

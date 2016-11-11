@@ -29,7 +29,6 @@ export class ItemsAddComponent implements OnInit {
   }
 
   initForm () {
-    console.log('initForm - this.item:', this.item);
     let formValues = this.item ? this.item : this.formDefaultValues;
     this.form = this.fb.group({
       'url': [formValues.url, Validators.required],
@@ -46,7 +45,6 @@ export class ItemsAddComponent implements OnInit {
   }
 
   submitData (data: {title, url, priority, type, keywords}): void {
-    // console.log('Submit Data:', this.form, data);
     if (this.form.invalid) {
       return;
     }

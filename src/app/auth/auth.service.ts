@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
 import { CookieService } from 'angular2-cookie/core';
-import { BehaviorSubject, Subject } from 'rxjs/Rx';
+import { Subject, ReplaySubject } from 'rxjs/Rx';
 
 import { environment } from '../../environments/environment';
 import { User } from './user.model';
 
 @Injectable()
 export class AuthService {
+  private _currentUser: any;
+  public user: Subject<User> = new ReplaySubject<User>(1);
 
-  private _user: any;
-  public user: Subject<User> = new BehaviorSubject<User>(null);
-
-  constructor (private _cookieService: CookieService, private _http: Http) {
+  constructor (private _cookieService: CookieService, private _http: Http, private _router: Router) {
     this._initTokenFromCookie();
   }
 
@@ -21,9 +21,10 @@ export class AuthService {
   }
 
   signOut (): void {
+    // console.log('AuthService::signOut()');
     localStorage.removeItem('token');
-    this._user = null;
-    this.user.next(null);
+    this.setCurrentUser(null);
+    this._router.navigate(['/']);
   }
 
 
@@ -37,19 +38,28 @@ export class AuthService {
     return opts;
   }
 
+
   // Private methods
+
+  private setCurrentUser (value: any) {
+    // console.log('AuthService setCurrentUser:', value);
+    this._currentUser = value;
+    this.user.next(value);
+  }
 
   private _initTokenFromCookie () {
     let cookieToken = this._cookieService.get('token');
     if (cookieToken) {
       let cleanToken = cookieToken.replace(new RegExp('"', 'g'), '');
-      console.log('token', cleanToken);
+      // console.log('token', cleanToken);
       localStorage.setItem('token', cleanToken);
       this._cookieService.remove('token');
     }
     let token = localStorage.getItem('token');
     if (token) {
       this.loadUser();
+    } else {
+      this.setCurrentUser(null);
     }
   }
 
@@ -63,8 +73,7 @@ export class AuthService {
       .subscribe(
         (res: Response) => {
           let u = res.json();
-          this._user = new User(u._id, u.name, u.avatar);
-          this.user.next(this._user);
+          this.setCurrentUser(new User(u._id, u.name, u.avatar));
         },
         (err: Response) => {
           console.error('AuthService.loadUser() - error:', err);

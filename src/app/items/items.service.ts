@@ -43,7 +43,6 @@ export class ItemsService {
           this._items.splice(this._items.indexOf(item), 1);
           // this.items.next(this._items);
         }
-        console.log('remove - res', res);
       });
   }
 
