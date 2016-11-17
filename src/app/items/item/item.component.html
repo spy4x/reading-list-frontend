@@ -1,0 +1,48 @@
+<div [class.viewed]="item.viewed" class="flex-container">
+  <a (click)="visitURL()" [href]="item.url" target="_blank" class="content">
+
+    <h6 class="title">
+      {{item.title}}
+    </h6>
+
+    <div class="additional-info">
+      <small class="tags text-muted"> {{item.tags}}</small>
+
+      <small *ngIf="item.viewed" class="additional-info-separator">|</small>
+
+      <small class="viewed-info text-muted" *ngIf="item.viewed">
+        viewed {{item.viewedAt | amTimeAgo}}
+      </small>
+    </div>
+
+  </a>
+
+  <div ngbDropdown class="actions">
+    <button ngbDropdownToggle type="button" class="btn btn-icon no-arrow">
+      <i class="fa fa-ellipsis-v toggle-menu-icon"></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a *ngIf="item.viewed"
+         class="dropdown-item"
+         (click)="markAsUnseen()">
+        Mark as unread
+      </a>
+      <a class="dropdown-item"
+         (click)="remove()">
+        Delete
+      </a>
+    </div>
+  </div>
+
+  <!--<md-menu x-position="before" #menu="mdMenu">-->
+  <!--<button md-menu-item *ngIf="item.viewed"-->
+  <!--(click)="markAsUnseen()">-->
+  <!--Mark as unread-->
+  <!--</button>-->
+
+  <!--<button md-menu-item-->
+  <!--(click)="remove()">-->
+  <!--Delete-->
+  <!--</button>-->
+  <!--</md-menu>-->
+</div>

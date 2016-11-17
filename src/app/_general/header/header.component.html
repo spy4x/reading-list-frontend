@@ -1,0 +1,22 @@
+<nav *ngIf="user" class="navbar navbar-fixed-top navbar-light bg-faded">
+  <div class="nav-item flex-container">
+    <div ngbDropdown>
+      <img ngbDropdownToggle
+           [src]="user.avatar"
+           class="user-avatar rounded-circle dropdown-toggle cursor-pointer"
+           width="30"
+           height="30"/>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" (click)="signOut()">Sign out</a>
+      </div>
+    </div>
+
+    <input type="text" class="search nav-item form-control d-inline"
+           placeholder="Search... (use #tag, !priority, URL)"/>
+
+    <a class="btn btn-default btn-icon float-xs-right"
+       [routerLink]="['/items/add']">
+      <i class="fa fa-2x fa-plus"></i>
+    </a>
+  </div>
+</nav>

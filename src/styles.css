@@ -1,0 +1,59 @@
+@import '~bootstrap/dist/css/bootstrap-flex.css';
+
+rl-app .loading-container{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btn-circle {
+  width: 38px;
+  height: 38px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 50%;
+  outline: 0 !important;
+}
+.btn-circle:active {
+  outline: 0 !important;
+}
+.btn-circle:focus {
+  outline: 0 !important;
+}
+
+
+.btn-icon {
+  width: 38px;
+  height: 38px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 50%;
+  outline: 0 !important;
+  background: none;
+}
+.btn-icon:active {
+  outline: 0 !important;
+}
+.btn-icon:focus {
+  outline: 0 !important;
+}
+
+.no-arrow.dropdown-toggle::after{
+  display: none;
+}

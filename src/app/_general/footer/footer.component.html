@@ -1,0 +1,25 @@
+<nav *ngIf="user" class="navbar navbar-fixed-bottom navbar-light bg-faded">
+  <div class="nav navbar-nav">
+    <a class="nav-item nav-link"
+       [routerLink]="['/dashboard']"
+       [routerLinkActive]="['active']"
+       align="center"
+       title="Dashboard">
+      <i class="fa fa-area-chart"></i>
+    </a>
+    <a class="nav-item nav-link"
+       [routerLink]="['/items']"
+       [routerLinkActive]="['active']"
+       align="center"
+       title="Items">
+      <i class="fa fa-list"></i>
+    </a>
+    <a class="nav-item nav-link"
+       [routerLink]="['/tags']"
+       [routerLinkActive]="['active']"
+       align="center"
+       title="Tags">
+      <i class="fa fa-tags"></i>
+    </a>
+  </div>
+</nav>
