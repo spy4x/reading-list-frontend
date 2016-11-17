@@ -70,7 +70,17 @@ export class AuthService {
           this._setCurrentUser(new User(u._id, u.name, u.avatar));
         },
         (err: Response) => {
-          console.error('AuthService.loadUser() - error:', err);
+          if (err.status === 401) {
+            // Temporary hack
+            this.signOut();
+            window.location.href = AuthService.authUrl; // sign in again
+            // There are no Interceptors in Angular2 HTTP module for v2.2.0
+            //  yet. Btw, HTTP should be switched to some REST library, check
+            //  issue here: https://github.com/antonshubin/reading-list/issues/1
+            //  REST library have to support interceptors.
+          } else {
+            console.error('AuthService.loadUser() - error:', err);
+          }
         });
   }
 
