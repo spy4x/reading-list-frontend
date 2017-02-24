@@ -1,0 +1,39 @@
+.title {
+  margin: 0;
+}
+
+.additional-info {
+  display: block;
+  margin-top: -5px;
+}
+
+.additional-info-separator {
+  margin: 0 5px;
+}
+
+.viewed .content, .viewed .content a {
+  color: grey;
+  text-decoration: none;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.content {
+  display: block;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 200px;
+}
+
+.toggle-menu-icon {
+  font-size: 1.2rem;
+}
+

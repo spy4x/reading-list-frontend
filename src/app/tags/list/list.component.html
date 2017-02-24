@@ -1,0 +1,5 @@
+<h4 *ngIf="tags && !tags.length" align="center">
+  No tags yet. <a [routerLink]="['add']">Create</a>
+</h4>
+<h4>All tags:</h4>
+<rl-tags-line *ngFor="let tag of tags" [tag]="tag"></rl-tags-line>

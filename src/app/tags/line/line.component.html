@@ -1,0 +1,25 @@
+<div class="flex-container">
+  <a (click)="searchBy(tag)" href="javascript:;" class="content">
+
+    <h6 class="title">
+      {{tag.name}}
+    </h6>
+
+  </a>
+
+  <div ngbDropdown class="actions">
+    <button ngbDropdownToggle type="button" class="btn btn-icon no-arrow">
+      <i class="fa fa-ellipsis-v toggle-menu-icon"></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="dropdown-item"
+         [routerLink]="['/tags', tag._id]">
+        Edit
+      </a>
+      <a class="dropdown-item"
+         (click)="remove(tag)">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>

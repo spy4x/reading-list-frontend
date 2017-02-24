@@ -1,0 +1,28 @@
+<form [formGroup]="form" (ngSubmit)="submitData(form.value)">
+
+  <div class="form-group">
+    <label for="nameInput">Name:</label>
+    <input type="text"
+           class="form-control"
+           placeholder="Enter tag name"
+           [formControl]="form.controls['name']"
+           id="nameInput">
+  </div>
+
+  <button class="btn btn-primary" [disabled]="form.invalid">
+    <i class="fa fa-save"></i>
+  </button>
+
+  <button class="btn btn-default" type="button"
+          *ngIf="tag"
+          (click)="cancel.emit()">
+    <i class="fa fa-times-circle-o"></i>
+  </button>
+
+  <hr/>
+
+  <h4>Preview:</h4>
+
+  <pre>{{tag | json}}</pre>
+
+</form>

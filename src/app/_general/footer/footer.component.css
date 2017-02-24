@@ -1,0 +1,22 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: center;
+}
+
+.navbar-nav .nav-link + .nav-link {
+  margin-left: 0;
+}
+
+.nav-item {
+  width: 100px;
+}
+
+@media (max-width: 332px) {
+  .nav-item {
+    width: 80px;
+  }
+}

@@ -1,0 +1,10 @@
+<div ngbDropdown>
+  <img ngbDropdownToggle
+       [src]="user.avatarURL"
+       class="user-avatar rounded-circle dropdown-toggle cursor-pointer"
+       width="30"
+       height="30"/>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" (click)="signOut()">Sign out</a>
+  </div>
+</div>
