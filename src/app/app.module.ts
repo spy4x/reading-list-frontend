@@ -29,7 +29,6 @@ import { TagEditActionEffect } from './_general/store/tags/tagEdit.action';
 import { TagRemoveActionEffect } from './_general/store/tags/tagRemove.action';
 import { AuthModule } from './_general/auth/auth.module';
 import { StoreReducer } from './_general/store/app.reducer';
-import { INITIAL_STATE } from './_general/store/app.state';
 
 
 @NgModule({
@@ -103,6 +102,12 @@ export class AppModule {
           children: ItemsModule.routes
         }
       ]
+    },
+
+    // Fallback
+    {
+      path: '**',
+      redirectTo: ''
     }
   ];
 
