@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Item } from '../item.model';
-import { ItemsService } from '../items.service';
+import { State, DataState } from '../../_general/store/app.state';
+import { ItemEditAction } from '../../_general/store/items/itemEdit.action';
 
 @Component({
   selector: 'rl-items-edit',
@@ -10,42 +12,36 @@ import { ItemsService } from '../items.service';
   styleUrls: ['./edit.component.css']
 })
 export class ItemsEditComponent implements OnInit, OnDestroy {
-  itemId: string;
   item: Item;
-  private routeParamsSub: Subscription;
-  private serviceItemSub: Subscription;
+  routeParamsSub: Subscription;
 
-  constructor (private service: ItemsService,
+  constructor (private store: Store<State>,
                private router: Router,
                private route: ActivatedRoute) {
   }
 
   ngOnInit () {
-    this.routeParamsSub = this.route.params.subscribe(params => {
-      this.itemId = params['id'];
-      this.item = this.getItem(this.service.items.value, this.itemId);
-    });
-    this.serviceItemSub = this.service.items.subscribe(items => {
-      this.item = this.getItem(items, this.itemId);
-    });
+    this.routeParamsSub = this.route.params
+      .combineLatest(this.store.select('data'))
+      .map((values: any[]) => {
+        const params = values[0] as Params;
+        const state = values[1] as DataState;
+        return {id: params['id'], items: state.items};
+      })
+      .subscribe((values: {id: string, items: Map<string, Item>}) => {
+        this.item = values.items.get(values.id);
+      });
   }
 
   ngOnDestroy () {
     this.routeParamsSub.unsubscribe();
-    this.serviceItemSub.unsubscribe();
   }
 
-  getItem (items: Item[], itemId: string): Item | undefined {
-    if (!items) {
-      return undefined;
-    }
-    return items.find(item => {
-      return item._id === itemId;
-    });
-  }
-
-  save (data) {
-    this.service.update(this.item, data);
+  save (changes: any) {
+    this.store.dispatch(new ItemEditAction({
+      item: this.item,
+      changes
+    }));
     this.router.navigate(['/']);
   }
 

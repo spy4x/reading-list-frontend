@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Tag } from '../tag.model';
-import { TagsService } from '../tags.service';
+import { State, DataState } from '../../_general/store/app.state';
 
 @Component({
   selector: 'rl-tags-list',
@@ -8,14 +9,17 @@ import { TagsService } from '../tags.service';
   styleUrls: ['./list.component.css']
 })
 export class TagsListComponent implements OnInit {
-
   tags: Tag[];
 
-  constructor (private service: TagsService) {
+  constructor (private store: Store<State>) {
+    this.store.select('data')
+      .map((state: DataState) => Array.from(state.tags.values()))
+      .map((tags: Tag[]) => tags.sort((tag1, tag2) => {
+        return tag1.name.localeCompare(tag2.name);
+      }))
+      .subscribe(items => this.tags = items);
   }
 
   ngOnInit () {
-    this.service.tags.subscribe(tags => this.tags = tags);
   }
-
 }

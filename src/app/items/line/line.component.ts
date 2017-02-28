@@ -4,8 +4,11 @@ import {
   Input,
   OnInit
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Item, Priority } from '../item.model';
-import { ItemsService } from '../items.service';
+import { State } from '../../_general/store/app.state';
+import { ItemRemoveAction } from '../../_general/store/items/itemRemove.action';
+import { ItemEditAction } from '../../_general/store/items/itemEdit.action';
 
 @Component({
   selector: 'rl-items-line',
@@ -17,22 +20,28 @@ export class ItemsLineComponent implements OnInit {
 
   @Input() item: Item;
 
-  constructor (private service: ItemsService) {
+  constructor (private store: Store<State>) {
   }
 
   ngOnInit () {
   }
 
   visitURL (): void {
-    this.service.update(this.item, {viewedAt: new Date()});
+    this.store.dispatch(new ItemEditAction({
+      item: this.item,
+      changes: {viewedAt: new Date()}
+    }));
   }
 
   markAsUnseen (): void {
-    this.service.update(this.item, {viewedAt: undefined});
+    this.store.dispatch(new ItemEditAction({
+      item: this.item,
+      changes: {viewedAt: undefined}
+    }));
   }
 
   remove (): void {
-    this.service.remove(this.item);
+    this.store.dispatch(new ItemRemoveAction(this.item));
   }
 
   getPriorityString (priority: number): string {

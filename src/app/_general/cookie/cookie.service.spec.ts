@@ -1,14 +1,14 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { MineCookieService } from './cookie.service';
+import { RLCookieService } from './cookie.service';
 
 describe('MineCookieService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MineCookieService]
+      providers: [RLCookieService]
     });
   });
 
-  it('should ...', inject([MineCookieService], (service: MineCookieService) => {
+  it('should ...', inject([RLCookieService], (service: RLCookieService) => {
     expect(service).toBeTruthy();
   }));
 });

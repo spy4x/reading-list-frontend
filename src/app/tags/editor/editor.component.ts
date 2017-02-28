@@ -56,11 +56,14 @@ export class TagsEditorComponent implements OnInit, OnChanges {
     });
   }
 
-  submitData (data: Tag): void {
+  submitData (formData: Tag): void {
     if (this.form.invalid) {
       return;
     }
-    this.changed.emit(data);
+    const newTag: Tag = {
+      name: formData.name
+    };
+    this.changed.emit(newTag);
     this.form.reset(this.formDefaultValues);
   }
 }
