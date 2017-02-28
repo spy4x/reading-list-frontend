@@ -21,7 +21,7 @@ const developmentReducer: ActionReducer<State> =
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function StoreReducer (state: any, action: any) {
-  if (!environment.production) {
+  if (environment.production) {
     return productionReducer(state, action);
   } else {
     return developmentReducer(state, action);
