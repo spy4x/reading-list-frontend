@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Item } from '../item.model';
+import { State } from '../../_general/store/app.state';
 import { Router } from '@angular/router';
-import { ItemsService } from '../items.service';
+import { ItemAddAction } from '../../_general/store/items/itemAdd.action';
 
 
 @Component({
@@ -10,14 +13,14 @@ import { ItemsService } from '../items.service';
 })
 export class ItemsAddComponent implements OnInit {
 
-  constructor (private service: ItemsService, private router: Router) {
+  constructor (private store: Store<State>, private router: Router) {
   }
 
   ngOnInit () {
   }
 
-  save (data) {
-    this.service.add(data);
+  save (item: Item) {
+    this.store.dispatch(new ItemAddAction(item));
     this.router.navigate(['/']);
   }
 

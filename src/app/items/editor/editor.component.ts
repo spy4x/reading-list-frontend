@@ -27,9 +27,11 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     tags: []
   };
   @Input() item: Item;
-  @Output() changed = new EventEmitter();
+  @Input() tags: string[];
+  @Output() changed = new EventEmitter<Item>();
   @Output() cancel = new EventEmitter();
   form: FormGroup;
+  selectedTags: string[] = [];
 
   constructor (private fb: FormBuilder) {
 
@@ -63,11 +65,18 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     });
   }
 
-  submitData (data: {title, url, priority, tags}): void {
+  submitData (formValues: {title, url, priority}): void {
     if (this.form.invalid) {
       return;
     }
-    this.changed.emit(data);
+    const newItem: Item = {
+      title: formValues.title,
+      url: formValues.url,
+      priority: formValues.priority,
+      tags: this.selectedTags
+    };
+    this.changed.emit(newItem);
     this.form.reset(this.formDefaultValues);
+    this.selectedTags = [];
   }
 }

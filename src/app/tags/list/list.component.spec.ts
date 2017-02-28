@@ -1,20 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ItemsListComponent } from './list.component';
+import { TagsListComponent } from './list.component';
 
-describe('ItemsListComponent', () => {
-  let component: ItemsListComponent;
-  let fixture: ComponentFixture<ItemsListComponent>;
+describe('TagsListComponent', () => {
+  let component: TagsListComponent;
+  let fixture: ComponentFixture<TagsListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ItemsListComponent]
+      declarations: [TagsListComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItemsListComponent);
+    fixture = TestBed.createComponent(TagsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

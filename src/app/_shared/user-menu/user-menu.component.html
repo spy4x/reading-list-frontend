@@ -1,4 +1,4 @@
-<div ngbDropdown>
+<div ngbDropdown *ngIf="user">
   <img ngbDropdownToggle
        [src]="user.avatarURL"
        class="user-avatar rounded-circle dropdown-toggle cursor-pointer"

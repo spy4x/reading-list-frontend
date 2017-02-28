@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Tag } from '../tag.model';
-import { TagsService } from '../tags.service';
+import { State, DataState } from '../../_general/store/app.state';
+import { TagEditAction } from '../../_general/store/tags/tagEdit.action';
 
 @Component({
   selector: 'rl-tags-edit',
@@ -13,39 +15,34 @@ export class TagsEditComponent implements OnInit, OnDestroy {
   tagId: string;
   tag: Tag;
   private routeParamsSub: Subscription;
-  private serviceTagSub: Subscription;
 
-  constructor (private service: TagsService,
+  constructor (private store: Store<State>,
                private router: Router,
                private route: ActivatedRoute) {
   }
 
   ngOnInit () {
-    this.routeParamsSub = this.route.params.subscribe(params => {
-      this.tagId = params['id'];
-      this.tag = this.getTag(this.service.tags.value, this.tagId);
-    });
-    this.serviceTagSub = this.service.tags.subscribe(tags => {
-      this.tag = this.getTag(tags, this.tagId);
-    });
+    this.routeParamsSub = this.route.params
+      .combineLatest(this.store.select('data'))
+      .map((values: any[]) => {
+        const params = values[0] as Params;
+        const state = values[1] as DataState;
+        return {id: params['id'], tags: state.tags};
+      })
+      .subscribe((values: {id: string, tags: Map<string, Tag>}) => {
+        this.tag = values.tags.get(values.id);
+      });
   }
 
   ngOnDestroy () {
     this.routeParamsSub.unsubscribe();
-    this.serviceTagSub.unsubscribe();
   }
 
-  getTag (tags: Tag[], tagId: string): Tag | undefined {
-    if (!tags) {
-      return undefined;
-    }
-    return tags.find(tag => {
-      return tag._id === tagId;
-    });
-  }
-
-  save (data: Tag): void {
-    this.service.update(this.tag, data);
+  save (changes: any): void {
+    this.store.dispatch(new TagEditAction({
+      tag: this.tag,
+      changes
+    }));
     this.router.navigate(['/tags']);
   }
 

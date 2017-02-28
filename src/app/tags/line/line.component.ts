@@ -4,8 +4,10 @@ import {
   Input,
   OnInit
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Tag } from '../tag.model';
-import { TagsService } from '../tags.service';
+import { State } from '../../_general/store/app.state';
+import { TagRemoveAction } from '../../_general/store/tags/tagRemove.action';
 
 @Component({
   selector: 'rl-tags-line',
@@ -17,7 +19,7 @@ export class TagsLineComponent implements OnInit {
 
   @Input() tag: Tag;
 
-  constructor (private service: TagsService) {
+  constructor (private store: Store<State>) {
   }
 
   ngOnInit () {
@@ -28,8 +30,8 @@ export class TagsLineComponent implements OnInit {
     console.log('No implementation for "Search by this tag" yet.');
   }
 
-  remove (tag): void {
-    this.service.remove(tag);
+  remove (tag: Tag): void {
+    this.store.dispatch(new TagRemoveAction(tag));
   }
 
 }
