@@ -66,6 +66,9 @@ rl-app .loading-container {
 }
 
 /* .rl-header START */
+.rl-header {
+  height: 52px
+}
 
 .rl-header .btn-icon {
   color: inherit;
@@ -79,6 +82,7 @@ rl-app .loading-container {
   justify-content: space-between;
   align-content: center;
   align-items: center;
+  height: 36px;
 }
 
 .rl-header input.search {

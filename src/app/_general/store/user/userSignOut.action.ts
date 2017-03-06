@@ -43,7 +43,7 @@ export class UserSignOutActionEffect {
     .ofType(UserSignOutActionType)
     .switchMap(() => {
       this.auth.signOut();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/public/login']);
       return Observable.of(true);
     });
 }

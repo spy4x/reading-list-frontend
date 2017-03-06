@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'angular2-moment';
@@ -14,6 +13,7 @@ import { TagsLineComponent } from './line/line.component';
 import { TagsListComponent } from './list/list.component';
 import { TagsComponent } from './tags.component';
 import { TagsService } from './tags.service';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { TagsService } from './tags.service';
     MomentModule,
     NgbModule,
     HttpModule,
-    BrowserModule,
+    CommonModule,
     SharedModule
   ]
 })
