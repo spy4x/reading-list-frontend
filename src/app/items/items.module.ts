@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'angular2-moment';
@@ -16,6 +15,7 @@ import { ItemsService } from './items.service';
 import { ItemsLineComponent } from './line/line.component';
 import { ItemsListComponent } from './list/list.component';
 import { ItemsReadTodayComponent } from './read-today/read-today.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,7 @@ import { ItemsReadTodayComponent } from './read-today/read-today.component';
     MomentModule,
     NgbModule,
     HttpModule,
-    BrowserModule,
+    CommonModule,
     SharedModule
   ]
 })

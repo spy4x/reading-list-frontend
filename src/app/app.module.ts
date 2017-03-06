@@ -29,6 +29,9 @@ import { TagEditActionEffect } from './_general/store/tags/tagEdit.action';
 import { TagRemoveActionEffect } from './_general/store/tags/tagRemove.action';
 import { AuthModule } from './_general/auth/auth.module';
 import { StoreReducer } from './_general/store/app.reducer';
+import { SharedModule } from './_shared/shared.module';
+import { AboutComponent } from './_shared/about/about.component';
+import { PublicModule } from './public/public.module';
 
 
 @NgModule({
@@ -47,6 +50,8 @@ import { StoreReducer } from './_general/store/app.reducer';
     ItemsModule,
     TagsModule,
     AuthModule,
+    SharedModule,
+    PublicModule,
     StoreModule.provideStore(StoreReducer),
 
     EffectsModule.run(UserSignInActionEffect),
@@ -76,9 +81,24 @@ export class AppModule {
   static readonly routes: Routes = [
     // Non-Logged in routes
     {
-      path: 'login',
-      component: LoginComponent,
-      canActivate: [NotLoggedInGuard]
+      path: 'public',
+      component: PublicModule.routeRootComponent,
+      canActivate: [NotLoggedInGuard],
+      children: [
+        {
+          path: '',
+          pathMatch: 'full',
+          redirectTo: 'login'
+        },
+        {
+          path: 'login',
+          component: LoginComponent
+        },
+        {
+          path: 'about',
+          component: AboutComponent
+        }
+      ]
     },
 
     // Logged in routes
@@ -87,6 +107,11 @@ export class AppModule {
       component: AuthenticatedComponent,
       canActivate: [LoggedInGuard],
       children: [
+        {
+          path: '',
+          component: ItemsModule.routeRootComponent,
+          children: ItemsModule.routes
+        },
         {
           path: 'dashboard',
           component: DashboardComponent
@@ -97,9 +122,8 @@ export class AppModule {
           children: TagsModule.routes
         },
         {
-          path: '',
-          component: ItemsModule.routeRootComponent,
-          children: ItemsModule.routes
+          path: 'about',
+          component: AboutComponent
         }
       ]
     },
