@@ -1,4 +1,8 @@
 @import '~bootstrap/dist/css/bootstrap.css';
+@font-face {
+  font-family: dadhand;
+  src: url(assets/dadhand.ttf);
+}
 
 rl-app .loading-container {
   display: flex;

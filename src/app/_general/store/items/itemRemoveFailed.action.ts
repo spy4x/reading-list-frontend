@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Item } from '../../../items/item.model';
+import { Item } from '../../../authenticated/items/item.model';
 
 export const ItemRemoveFailedActionType = 'ITEM_REMOVE_FAILED_ACTION';
 

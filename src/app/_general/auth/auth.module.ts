@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestOptions, Http } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { AuthService } from './auth.service';
 
 // authFactory's && authProvider's specification shouldn't be changed
 //   because it affects AOT build
@@ -25,7 +26,8 @@ export const authProvider = {
     CommonModule
   ],
   providers: [
-    authProvider
+    authProvider,
+    AuthService
   ],
   declarations: []
 })
