@@ -1,0 +1,27 @@
+<nav class="rl-header navbar fixed-top navbar-light bg-faded">
+  <div class="nav-item flex-container">
+
+    <a href="javascript:;"
+       (click)="cancel.emit()"
+       class="flex-container">
+      <div>
+        <i class="fa fa-2x fa-angle-left"></i>
+      </div>
+      <div class="ml-2">
+        <span class="text-with-fa-2x-icon">Cancel</span>
+      </div>
+    </a>
+
+    <span>{{text}}</span>
+
+    <a href="javascript:;"
+       [attr.disabled]="doneDisabled ? true : null"
+       (click)="done.emit()"
+       [class.disabled]="doneDisabled">
+      Done
+    </a>
+
+  </div>
+
+</nav>
+

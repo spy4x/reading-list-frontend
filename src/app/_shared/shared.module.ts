@@ -5,6 +5,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 import { AboutComponent } from './about/about.component';
 import { SharedHeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
+import { EditorHeaderComponent } from './editor-header/header.component';
 
 @NgModule({
   imports: [
@@ -15,12 +16,14 @@ import { RouterModule } from '@angular/router';
   declarations: [
     UserMenuComponent,
     AboutComponent,
-    SharedHeaderComponent
+    SharedHeaderComponent,
+    EditorHeaderComponent
   ],
   exports: [
     UserMenuComponent,
     AboutComponent,
-    SharedHeaderComponent
+    SharedHeaderComponent,
+    EditorHeaderComponent
   ]
 })
 export class SharedModule {

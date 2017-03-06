@@ -1,4 +1,4 @@
-<div ngbDropdown *ngIf="user">
+<div ngbDropdown *ngIf="user" [up]="true">
   <img ngbDropdownToggle
        [src]="user.avatarURL"
        class="user-avatar rounded-circle dropdown-toggle cursor-pointer"
@@ -8,10 +8,4 @@
     <a class="dropdown-item" [routerLink]="['/about']">About</a>
     <a class="dropdown-item" (click)="signOut()">Sign out</a>
   </div>
-</div>
-<div *ngIf="!user && url !== '/public/login'">
-  <a class="btn btn-danger"
-     [routerLink]="['/public/login']">
-    Sign in
-  </a>
 </div>

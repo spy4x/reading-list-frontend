@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Item } from '../item.model';
@@ -16,7 +17,7 @@ export class ItemsEditComponent implements OnInit, OnDestroy {
   routeParamsSub: Subscription;
 
   constructor (private store: Store<State>,
-               private router: Router,
+               private location: Location,
                private route: ActivatedRoute) {
   }
 
@@ -40,11 +41,11 @@ export class ItemsEditComponent implements OnInit, OnDestroy {
       item: this.item,
       changes
     }));
-    this.router.navigate(['/']);
+    this.location.back();
   }
 
   cancel () {
-    this.router.navigate(['/']);
+    this.location.back();
   }
 
 }

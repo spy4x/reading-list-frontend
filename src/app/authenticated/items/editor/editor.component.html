@@ -1,3 +1,7 @@
+<rl-editor-header (done)="submitData(form.value)"
+                  [doneDisabled]="form.invalid"
+                  [text]="item ? 'Edit Item' : 'Create Item'"
+                  (cancel)="cancel.emit()"></rl-editor-header>
 <form [formGroup]="form" (ngSubmit)="submitData(form.value)">
 
   <div class="form-group">
@@ -28,16 +32,6 @@
            max="3"
            [formControl]="form.controls['priority']">
   </div>
-
-  <button class="btn btn-primary" [disabled]="form.invalid">
-    <i class="fa fa-save"></i>
-  </button>
-
-  <button class="btn btn-default" type="button"
-          *ngIf="item"
-          (click)="cancel.emit()">
-    <i class="fa fa-times-circle-o"></i>
-  </button>
 
   <hr/>
 

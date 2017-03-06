@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Tag } from '../tag.model';
@@ -12,12 +13,11 @@ import { TagEditAction } from '../../../_general/store/tags/tagEdit.action';
   styleUrls: ['edit.component.css']
 })
 export class TagsEditComponent implements OnInit, OnDestroy {
-  tagId: string;
   tag: Tag;
   private routeParamsSub: Subscription;
 
   constructor (private store: Store<State>,
-               private router: Router,
+               private location: Location,
                private route: ActivatedRoute) {
   }
 
@@ -41,11 +41,11 @@ export class TagsEditComponent implements OnInit, OnDestroy {
       tag: this.tag,
       changes
     }));
-    this.router.navigate(['/tags']);
+    this.location.back();
   }
 
   cancel (): void {
-    this.router.navigate(['/tags']);
+    this.location.back();
   }
 
 }

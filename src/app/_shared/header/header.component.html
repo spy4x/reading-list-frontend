@@ -1,6 +1,9 @@
 <nav class="rl-header navbar fixed-top navbar-light bg-faded">
-  <div class="nav-item flex-container">
-    <rl-user-menu></rl-user-menu>
+  <div *ngIf="!user" class="nav-item flex-container">
+    <a class="btn btn-danger"
+       [routerLink]="['/public/login']">
+      Sign in
+    </a>
   </div>
 
 </nav>
