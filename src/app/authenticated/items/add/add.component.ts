@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Item } from '../item.model';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { State } from '../../../_general/store/app.state';
 import { ItemAddAction } from '../../../_general/store/items/itemAdd.action';
 
@@ -13,7 +13,7 @@ import { ItemAddAction } from '../../../_general/store/items/itemAdd.action';
 })
 export class ItemsAddComponent implements OnInit {
 
-  constructor (private store: Store<State>, private router: Router) {
+  constructor (private store: Store<State>, private location: Location) {
   }
 
   ngOnInit () {
@@ -21,7 +21,11 @@ export class ItemsAddComponent implements OnInit {
 
   save (item: Item) {
     this.store.dispatch(new ItemAddAction(item));
-    this.router.navigate(['/']);
+    this.location.back();
+  }
+
+  cancel () {
+    this.location.back();
   }
 
 }
