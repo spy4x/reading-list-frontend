@@ -24,4 +24,5 @@ import { RouterModule } from '@angular/router';
   ]
 })
 export class SharedModule {
+  static readonly aboutComponent = AboutComponent;
 }

@@ -1,5 +1,5 @@
-import { Item } from '../../items/item.model';
-import { Tag } from '../../tags/tag.model';
+import { Item } from '../../authenticated/items/item.model';
+import { Tag } from '../../authenticated/tags/tag.model';
 import { User } from '../auth/user.model';
 import { RouterState } from '@ngrx/router-store';
 

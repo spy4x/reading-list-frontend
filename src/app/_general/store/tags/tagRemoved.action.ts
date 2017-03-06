@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Tag } from '../../../tags/tag.model';
+import { Tag } from '../../../authenticated/tags/tag.model';
 
 export const TagRemovedActionType = 'TAG_REMOVED_ACTION';
 

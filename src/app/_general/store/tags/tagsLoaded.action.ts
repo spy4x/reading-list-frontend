@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { DataState } from '../app.state';
-import { Tag } from '../../../tags/tag.model';
+import { Tag } from '../../../authenticated/tags/tag.model';
 
 export const TagsLoadedActionType = 'TAGS_LOADED_ACTION';
 

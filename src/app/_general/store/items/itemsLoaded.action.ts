@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { DataState } from '../app.state';
-import { Item } from '../../../items/item.model';
+import { Item } from '../../../authenticated/items/item.model';
 
 export const ItemsLoadedActionType = 'ITEMS_LOADED_ACTION';
 

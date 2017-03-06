@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Item } from '../../../items/item.model';
+import { Item } from '../../../authenticated/items/item.model';
 
 export const ItemSavedActionType = 'ITEM_SAVED_ACTION';
 

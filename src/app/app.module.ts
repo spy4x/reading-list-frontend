@@ -3,22 +3,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from './_general/auth/auth.service';
-import { AuthenticatedComponent } from './_general/auth/authenticated/authenticated.component';
-import { LoggedInGuard } from './_general/auth/loggedIn.guard';
-import { NotLoggedInGuard } from './_general/auth/notLoggedIn.guard';
-import { RLCookieService } from './_general/cookie/cookie.service';
-import { FooterComponent } from './_general/footer/footer.component';
-import { LoginComponent } from './_general/login/login.component';
-import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { StatisticsComponent } from './dashboard/statistics/statistics.component';
-import { ItemsModule } from './items/items.module';
-import { TagsModule } from './tags/tags.module';
 import { StoreModule } from '@ngrx/store';
 import { RouterStoreModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+
 import { UserSignInActionEffect } from './_general/store/user/userSignIn.action';
 import { UserSignOutActionEffect } from './_general/store/user/userSignOut.action';
 import { ItemAddActionEffect } from './_general/store/items/itemAdd.action';
@@ -27,31 +16,25 @@ import { ItemRemoveActionEffect } from './_general/store/items/itemRemove.action
 import { TagAddActionEffect } from './_general/store/tags/tagAdd.action';
 import { TagEditActionEffect } from './_general/store/tags/tagEdit.action';
 import { TagRemoveActionEffect } from './_general/store/tags/tagRemove.action';
+
+import { LoggedInGuard } from './_general/auth/loggedIn.guard';
+import { NotLoggedInGuard } from './_general/auth/notLoggedIn.guard';
+import { RLCookieService } from './_general/cookie/cookie.service';
+import { AppComponent } from './app.component';
 import { AuthModule } from './_general/auth/auth.module';
 import { StoreReducer } from './_general/store/app.reducer';
-import { SharedModule } from './_shared/shared.module';
-import { AboutComponent } from './_shared/about/about.component';
 import { PublicModule } from './public/public.module';
+import { AuthenticatedModule } from './authenticated/authenticated.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    FooterComponent,
-    DashboardComponent,
-    StatisticsComponent,
-    AuthenticatedComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(AppModule.routes),
     NgbModule.forRoot(),
-    ItemsModule,
-    TagsModule,
-    AuthModule,
-    SharedModule,
-    PublicModule,
     StoreModule.provideStore(StoreReducer),
 
     EffectsModule.run(UserSignInActionEffect),
@@ -66,10 +49,13 @@ import { PublicModule } from './public/public.module';
     EffectsModule.run(TagRemoveActionEffect),
 
     RouterStoreModule.connectRouter(),
-    StoreDevtoolsModule.instrumentOnlyWithExtension()
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+
+    AuthModule,
+    PublicModule,
+    AuthenticatedModule
   ],
   providers: [
-    AuthService,
     RLCookieService,
     NotLoggedInGuard,
     LoggedInGuard
@@ -79,53 +65,18 @@ import { PublicModule } from './public/public.module';
 export class AppModule {
 
   static readonly routes: Routes = [
-    // Non-Logged in routes
     {
       path: 'public',
       component: PublicModule.routeRootComponent,
       canActivate: [NotLoggedInGuard],
-      children: [
-        {
-          path: '',
-          pathMatch: 'full',
-          redirectTo: 'login'
-        },
-        {
-          path: 'login',
-          component: LoginComponent
-        },
-        {
-          path: 'about',
-          component: AboutComponent
-        }
-      ]
+      children: PublicModule.routes
     },
 
-    // Logged in routes
     {
       path: '',
-      component: AuthenticatedComponent,
+      component: AuthenticatedModule.routeRootComponent,
       canActivate: [LoggedInGuard],
-      children: [
-        {
-          path: '',
-          component: ItemsModule.routeRootComponent,
-          children: ItemsModule.routes
-        },
-        {
-          path: 'dashboard',
-          component: DashboardComponent
-        },
-        {
-          path: 'tags',
-          component: TagsModule.routeRootComponent,
-          children: TagsModule.routes
-        },
-        {
-          path: 'about',
-          component: AboutComponent
-        }
-      ]
+      children: AuthenticatedModule.routes
     },
 
     // Fallback
