@@ -14,6 +14,7 @@ import { Item } from '../item.model';
 import { OpenGraphService } from '../../../_general/openGraph/open-graph.service';
 import { Observable } from 'rxjs';
 /* tslint:enable:max-line-length */
+const deepEqual = require('deep-equal');
 
 
 @Component({
@@ -24,18 +25,23 @@ import { Observable } from 'rxjs';
 })
 export class ItemsEditorComponent implements OnInit, OnChanges {
 
-  readonly formDefaultValues: Item = {
-    priority: 1,
-    title: '',
-    url: '',
-    tags: []
-  };
   @Input() item: Item;
   @Input() tags: string[];
   @Output() changed = new EventEmitter<Item>();
   @Output() cancel = new EventEmitter();
-  form: FormGroup;
+  mainForm: FormGroup;
+  metaDataForm: FormGroup;
   selectedTags: string[] = [];
+  editMode: boolean;
+
+  readonly formDefaultValues: Item = {
+    priority: 1,
+    title: '',
+    imageUrl: '',
+    description: '',
+    url: '',
+    tags: []
+  };
 
   constructor (private fb: FormBuilder,
                private openGraphService: OpenGraphService) {
@@ -43,32 +49,37 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit () {
-    this.initForm();
+    this.initMainForm();
+    this.initMetaDataForm();
   }
 
   ngOnChanges (changes: SimpleChanges): void {
-    this.setNewFormValue(this.item);
+    if (!deepEqual(changes['item'].currentValue,
+        changes['item'].previousValue)) {
+      this.setNewFormValue(this.item);
+    }
   }
 
-  initForm () {
+  initMainForm () {
     const formValues = this.item ? this.item : this.formDefaultValues;
-    this.form = this.fb.group({
+    this.mainForm = this.fb.group({
       'url': [formValues.url, Validators.required],
-      'title': [formValues.title, Validators.required],
       'priority': [formValues.priority, Validators.required]
     });
-    this.form.valueChanges
+    this.mainForm.valueChanges
       .debounceTime(450)
-      .map(formValue => {
-        if (this.hasProtocol(formValue.url)) {
-          return formValue.url;
+      .map(formValue => formValue.url)
+      .filter(url => !!url)
+      .map(url => {
+        if (this.hasProtocol(url)) {
+          return url;
         } else {
-          const urlWithProtocol = this.addProtocol(formValue.url);
-          this.form.patchValue({url: urlWithProtocol});
+          const urlWithProtocol = this.addProtocol(url);
+          this.mainForm.patchValue({url: urlWithProtocol});
           return urlWithProtocol;
         }
       })
-      .filter(url => !!url)
+      .filter(url => !this.item || url !== this.item.url)
       .distinct(url => url)
       .switchMap(url => this.openGraphService.parse(url))
       .catch(err => Observable.of(undefined))
@@ -76,33 +87,59 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
         if (!openGraphInfo) {
           return;
         }
-        this.form.patchValue({title: openGraphInfo.title});
+        this.metaDataForm.patchValue({
+          title: openGraphInfo.title,
+          imageUrl: openGraphInfo.image,
+          description: openGraphInfo.description
+        });
       });
   }
 
-  setNewFormValue (newValue: Item) {
-    if (!this.form || !newValue) {
-      return;
-    }
-    this.form.setValue({
-      url: newValue.url,
-      title: newValue.title,
-      priority: newValue.priority
+  initMetaDataForm () {
+    const formValues = this.item ? this.item : this.formDefaultValues;
+    this.metaDataForm = this.fb.group({
+      'title': [formValues.title, Validators.required],
+      'imageUrl': [formValues.imageUrl],
+      'description': [formValues.description]
     });
   }
 
-  submitData (formValues: {title, url, priority}): void {
-    if (this.form.invalid) {
+  setNewFormValue (newValue: Item) {
+    if (!this.mainForm || !this.metaDataForm || !newValue) {
       return;
     }
+    this.mainForm.patchValue({
+      url: newValue.url,
+      priority: newValue.priority
+    });
+    this.metaDataForm.patchValue({
+      title: newValue.title,
+      imageUrl: newValue.imageUrl,
+      description: newValue.description
+    });
+  }
+
+  isSubmitDisabled (): boolean {
+    return this.mainForm.invalid || this.metaDataForm.invalid;
+  }
+
+  submit (): void {
+    if (this.isSubmitDisabled()) {
+      return;
+    }
+    const formValues: {url, priority, title, imageUrl, description} =
+      Object.assign({}, this.mainForm.value, this.metaDataForm.value);
     const newItem: Item = {
       title: formValues.title,
       url: formValues.url,
+      imageUrl: formValues.imageUrl,
+      description: formValues.description,
       priority: formValues.priority,
       tags: this.selectedTags
     };
     this.changed.emit(newItem);
-    this.form.reset(this.formDefaultValues);
+    this.mainForm.reset(this.formDefaultValues);
+    this.metaDataForm.reset(this.formDefaultValues);
     this.selectedTags = [];
   }
 

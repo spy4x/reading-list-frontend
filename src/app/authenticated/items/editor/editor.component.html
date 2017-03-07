@@ -1,25 +1,17 @@
-<rl-editor-header (done)="submitData(form.value)"
-                  [doneDisabled]="form.invalid"
-                  [text]="item ? 'Edit Item' : 'Create Item'"
-                  (cancel)="cancel.emit()"></rl-editor-header>
-<form [formGroup]="form" (ngSubmit)="submitData(form.value)">
+<rl-editor-header
+  (done)="submit()"
+  [doneDisabled]="isSubmitDisabled()"
+  [text]="item ? 'Edit Item' : 'Create Item'"
+  (cancel)="cancel.emit()"></rl-editor-header>
 
+<form [formGroup]="mainForm" (ngSubmit)="submit()">
   <div class="form-group">
     <label for="urlInput">URL:</label>
     <input type="text"
            class="form-control"
            placeholder="Enter URL"
-           [formControl]="form.controls['url']"
+           [formControl]="mainForm.controls['url']"
            id="urlInput">
-  </div>
-
-  <div class="form-group">
-    <label for="titleInput">Title:</label>
-    <input type="text"
-           class="form-control"
-           placeholder="Enter title"
-           [formControl]="form.controls['title']"
-           id="titleInput">
   </div>
 
   <div class="form-group">
@@ -30,13 +22,45 @@
            placeholder="Priority (1-3)"
            min="1"
            max="3"
-           [formControl]="form.controls['priority']">
+           [formControl]="mainForm.controls['priority']">
   </div>
-
-  <hr/>
-
-  <h4>Preview:</h4>
-
-  <pre>{{item | json}}</pre>
-
 </form>
+
+
+<form *ngIf="editMode" [formGroup]="metaDataForm" (ngSubmit)="submit()">
+  <hr/>
+  <div class="form-group">
+    <label for="titleInput">Title:</label>
+    <input type="text"
+           class="form-control"
+           placeholder="Enter title"
+           [formControl]="metaDataForm.controls['title']"
+           id="titleInput">
+  </div>
+  <div class="form-group">
+    <label for="imageUrlInput">Image URL:</label>
+    <input type="text"
+           class="form-control"
+           placeholder="Enter image URL"
+           [formControl]="metaDataForm.controls['imageUrl']"
+           id="imageUrlInput">
+  </div>
+  <div class="form-group">
+    <label for="descriptionInput">Description:</label>
+    <textarea class="form-control"
+              placeholder="Enter description"
+              [formControl]="metaDataForm.controls['description']"
+              id="descriptionInput"></textarea>
+  </div>
+</form>
+
+<hr/>
+
+<h4>Preview:</h4>
+<button class="btn btn-secondary"
+        (click)="editMode = !editMode"
+[disabled]="editMode && this.metaDataForm.invalid">
+  {{editMode ? 'Collapse extended form' : 'Edit'}}
+</button>
+<pre>{{item | json}}</pre>
+
