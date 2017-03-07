@@ -10,6 +10,10 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Item } from '../item.model';
+/* tslint:disable:max-line-length */
+import { OpenGraphService } from '../../../_general/openGraph/open-graph.service';
+import { Observable } from 'rxjs';
+/* tslint:enable:max-line-length */
 
 
 @Component({
@@ -33,7 +37,8 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   form: FormGroup;
   selectedTags: string[] = [];
 
-  constructor (private fb: FormBuilder) {
+  constructor (private fb: FormBuilder,
+               private openGraphService: OpenGraphService) {
 
   }
 
@@ -52,6 +57,27 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
       'title': [formValues.title, Validators.required],
       'priority': [formValues.priority, Validators.required]
     });
+    this.form.valueChanges
+      .debounceTime(450)
+      .map(formValue => {
+        if (this.hasProtocol(formValue.url)) {
+          return formValue.url;
+        } else {
+          const urlWithProtocol = this.addProtocol(formValue.url);
+          this.form.patchValue({url: urlWithProtocol});
+          return urlWithProtocol;
+        }
+      })
+      .filter(url => !!url)
+      .distinct(url => url)
+      .switchMap(url => this.openGraphService.parse(url))
+      .catch(err => Observable.of(undefined))
+      .subscribe(openGraphInfo => {
+        if (!openGraphInfo) {
+          return;
+        }
+        this.form.patchValue({title: openGraphInfo.title});
+      });
   }
 
   setNewFormValue (newValue: Item) {
@@ -78,5 +104,21 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     this.changed.emit(newItem);
     this.form.reset(this.formDefaultValues);
     this.selectedTags = [];
+  }
+
+
+  private hasProtocol (url: string): boolean {
+    if (!url) {
+      return false;
+    }
+    return url.lastIndexOf('http://') === 0 ||
+      url.lastIndexOf('https://') === 0 ||
+      url.lastIndexOf('ftp://') === 0 ||
+      url.lastIndexOf('ftps://') === 0 ||
+      url.lastIndexOf('file://') === 0;
+  }
+
+  private addProtocol (url: string): string {
+    return this.hasProtocol(url) ? url : `http://${url}`;
   }
 }
