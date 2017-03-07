@@ -1,4 +1,9 @@
+.navbar {
+  height: 52px;
+}
+
 .nav {
+  height: 54px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

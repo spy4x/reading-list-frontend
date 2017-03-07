@@ -2,6 +2,8 @@ export interface Item {
   _id?: string;
   url: string;
   title: string;
+  imageUrl: string;
+  description: string;
   priority: number;
   tags: any[];
   viewedAt?: Date;
