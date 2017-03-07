@@ -25,6 +25,7 @@ import { AuthModule } from './_general/auth/auth.module';
 import { StoreReducer } from './_general/store/app.reducer';
 import { PublicModule } from './public/public.module';
 import { AuthenticatedModule } from './authenticated/authenticated.module';
+import { OpenGraphService } from './_general/openGraph/open-graph.service';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { AuthenticatedModule } from './authenticated/authenticated.module';
   providers: [
     RLCookieService,
     NotLoggedInGuard,
-    LoggedInGuard
+    LoggedInGuard,
+    OpenGraphService
   ],
   bootstrap: [AppComponent]
 })
