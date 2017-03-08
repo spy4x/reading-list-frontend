@@ -6,8 +6,8 @@ import { Actions, Effect } from '@ngrx/effects';
 import { ItemsService } from '../../../authenticated/items/items.service';
 import { Item } from '../../../authenticated/items/item.model';
 import { Observable } from 'rxjs';
-import { ItemSavedAction } from './itemSaved.action';
-import { ItemSaveFailedAction } from './itemSaveFailed.action';
+import { ItemEditedAction } from './itemEdited.action';
+import { ItemEditFailedAction } from './itemEditFailed.action';
 
 export const ItemEditActionType = 'ITEM_EDIT_ACTION';
 
@@ -38,10 +38,14 @@ export class ItemEditActionEffect {
     .switchMap((action: ItemEditAction) => {
       return this.itemsService
         .update(action.payload.item, action.payload.changes)
-        .map((item: Item) => {
-          return new ItemSavedAction(item);
+        .map((updatedItem: Item) => {
+          return new ItemEditedAction({
+            original: action.payload.item,
+            changes: action.payload.changes,
+            updated: updatedItem
+          });
         })
-        .catch(error => Observable.of(new ItemSaveFailedAction({
+        .catch(error => Observable.of(new ItemEditFailedAction({
           item: action.payload.item,
           error
         })));

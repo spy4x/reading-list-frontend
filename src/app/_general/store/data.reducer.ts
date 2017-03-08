@@ -46,6 +46,21 @@ import {
   UserSignOutDataActionHandler,
   UserSignOutAction
 } from './user/userSignOut.action';
+import {
+  ItemRemovedActionType,
+  ItemRemovedActionHandler,
+  ItemRemovedAction
+} from './items/itemRemoved.action';
+import {
+  ItemAddedActionType,
+  ItemAddedActionHandler,
+  ItemAddedAction
+} from './items/itemAdded.action';
+import {
+  ItemEditedAction,
+  ItemEditedActionHandler,
+  ItemEditedActionType
+} from './items/itemEdited.action';
 
 export function DataReducer (state = INITIAL_DATA_STATE, action: Action) {
   switch (action.type) {
@@ -63,11 +78,20 @@ export function DataReducer (state = INITIAL_DATA_STATE, action: Action) {
     case ItemAddActionType:
       return ItemAddActionHandler(state, action as ItemAddAction);
 
+    case ItemAddedActionType:
+      return ItemAddedActionHandler(state, action as ItemAddedAction);
+
     case ItemEditActionType:
       return ItemEditActionHandler(state, action as ItemEditAction);
 
+    case ItemEditedActionType:
+      return ItemEditedActionHandler(state, action as ItemEditedAction);
+
     case ItemRemoveActionType:
       return ItemRemoveActionHandler(state, action as ItemRemoveAction);
+
+    case ItemRemovedActionType:
+      return ItemRemovedActionHandler(state, action as ItemRemovedAction);
 
     // Tags //
 

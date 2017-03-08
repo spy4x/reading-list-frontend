@@ -14,7 +14,7 @@ import { Item } from '../item.model';
 import { OpenGraphService } from '../../../_general/openGraph/open-graph.service';
 import { Observable } from 'rxjs';
 /* tslint:enable:max-line-length */
-const deepEqual = require('deep-equal');
+import * as _ from 'lodash';
 
 
 @Component({
@@ -54,7 +54,7 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges (changes: SimpleChanges): void {
-    if (!deepEqual(changes['item'].currentValue,
+    if (!_.isEqual(changes['item'].currentValue,
         changes['item'].previousValue)) {
       this.setNewFormValue(this.item);
     }
