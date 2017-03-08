@@ -53,7 +53,7 @@ export class ItemsLineComponent implements OnInit {
   getPriorityClass (priority: number): string {
     switch (priority) {
       case 1:
-        return 'warning';
+        return 'success';
       case 2:
         return 'info';
       case 3:

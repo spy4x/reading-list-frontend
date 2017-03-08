@@ -37,3 +37,6 @@
   font-size: 1.2rem;
 }
 
+.tags .badge {
+  margin-right: 3px;
+}

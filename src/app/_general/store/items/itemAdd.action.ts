@@ -7,8 +7,8 @@ import { ItemsService } from '../../../authenticated/items/items.service';
 import { Item } from '../../../authenticated/items/item.model';
 import { Observable } from 'rxjs';
 import { generate } from 'shortid';
-import { ItemSavedAction } from './itemSaved.action';
-import { ItemSaveFailedAction } from './itemSaveFailed.action';
+import { ItemAddedAction } from './itemAdded.action';
+import { ItemAddFailedAction } from './itemAddFailed.action';
 
 export const ItemAddActionType = 'ITEM_ADD_ACTION';
 
@@ -39,9 +39,9 @@ export class ItemAddActionEffect {
       return this.itemsService
         .add(action.payload)
         .map((item: Item) => {
-          return new ItemSavedAction(item);
+          return new ItemAddedAction(item);
         })
-        .catch(error => Observable.of(new ItemSaveFailedAction({
+        .catch(error => Observable.of(new ItemAddFailedAction({
           item: action.payload,
           error
         })));

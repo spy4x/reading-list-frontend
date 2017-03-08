@@ -4,6 +4,8 @@ import { environment } from '../../../environments/environment';
 import { Item } from './item.model';
 import { AuthHttp } from 'angular2-jwt';
 import { Response } from '@angular/http';
+import { Tag } from '../tags/tag.model';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ItemsService {
@@ -37,6 +39,17 @@ export class ItemsService {
     return this.http
       .get(environment.apiUrl + this.urlPath)
       .map(res => res.json());
+  }
+
+  static linkToTagsPure (items: Map<string, Item>,
+                         tags: Map<string, Tag>): Map<string, Item> {
+    const clonedItems = _.cloneDeep(items);
+    clonedItems.forEach(item => {
+      item.tags.forEach((tagId: string, index: number) => {
+        item.tags[index] = tags.get(tagId) || tagId;
+      });
+    });
+    return clonedItems;
   }
 
 }
