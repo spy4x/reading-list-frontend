@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -39,6 +39,7 @@ import { SharedModule } from '../../_shared/shared.module';
   imports: [
     RouterModule,
     ReactiveFormsModule,
+    FormsModule,
     MomentModule,
     NgbModule,
     HttpModule,

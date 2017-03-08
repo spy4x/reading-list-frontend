@@ -39,6 +39,7 @@ export class ItemAddActionEffect {
       return this.itemsService
         .add(action.payload)
         .map((item: Item) => {
+          item.tags = action.payload.tags;
           return new ItemAddedAction(item);
         })
         .catch(error => Observable.of(new ItemAddFailedAction({

@@ -33,7 +33,8 @@ export const ItemEditedActionHandler = (state: DataState,
     }
   });
   action.payload.original.tags.forEach((tag: Tag) => {
-    if (!action.payload.changes.find(tagToFind => tagToFind._id === tag._id)) {
+    if (!action.payload.changes.tags
+        .find(tagToFind => tagToFind._id === tag._id)) {
       tagsRemovedIds.push(tag._id);
     }
   });
