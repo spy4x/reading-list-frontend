@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Item } from '../item.model';
 import { DataState, State } from '../../../_general/store/app.state';
 import { ItemEditAction } from '../../../_general/store/items/itemEdit.action';
+import { Tag } from '../../tags/tag.model';
 
 @Component({
   selector: 'rl-items-edit',
@@ -14,6 +15,7 @@ import { ItemEditAction } from '../../../_general/store/items/itemEdit.action';
 })
 export class ItemsEditComponent implements OnInit, OnDestroy {
   item: Item;
+  tags: Tag[];
   routeParamsSub: Subscription;
 
   constructor (private store: Store<State>,
@@ -25,6 +27,7 @@ export class ItemsEditComponent implements OnInit, OnDestroy {
     this.routeParamsSub = this.route.params
       .combineLatest(this.store.select<DataState>('data'))
       .map((values: [Params, DataState]) => {
+        this.tags = Array.from(values[1].tags.values());
         return {id: values[0]['id'], items: values[1].items};
       })
       .subscribe((values: {id: string, items: Map<string, Item>}) => {

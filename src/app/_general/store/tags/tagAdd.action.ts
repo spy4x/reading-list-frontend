@@ -17,11 +17,12 @@ export class TagAddAction implements Action {
 
   constructor (public payload: Tag) {
     payload._id = generate();
+    payload.itemsAmount = 0;
   }
 }
 
 export const TagAddActionHandler = (state: DataState,
-                                     action: TagAddAction) => {
+                                    action: TagAddAction) => {
   const map = new Map<string, Tag>(state.tags);
   map.set(action.payload._id, action.payload);
   return Object.assign({}, state, {tags: map});

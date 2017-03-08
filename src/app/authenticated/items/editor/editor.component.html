@@ -25,7 +25,28 @@
            [formControl]="mainForm.controls['priority']">
   </div>
 </form>
+<div class="form-group">
+  <label for="tagsInput">Tags:</label>
+  <input type="text"
+         id="tagsInput"
+         #tagsInput
+         class="form-control"
+         [ngbTypeahead]="searchTag"
+         [editable]="false"
+         [focusFirst]="true"
+         [inputFormatter]="tagInputFormatter"
+         [resultFormatter]="tagInputFormatter"
+         (selectItem)="tagsInputSelectedEvent($event)">
+</div>
 
+<div class="selected-tags">
+  <button class="tag btn btn-sm btn-primary"
+          *ngFor="let tag of selectedTags"
+          (click)="removeTag(tag)">
+    <span>{{tag.name}}</span>
+    <i class="fa fa-times"></i>
+  </button>
+</div>
 
 <form *ngIf="editMode" [formGroup]="metaDataForm" (ngSubmit)="submit()">
   <hr/>
@@ -59,7 +80,7 @@
 <h4>Preview:</h4>
 <button class="btn btn-secondary"
         (click)="editMode = !editMode"
-[disabled]="editMode && this.metaDataForm.invalid">
+        [disabled]="editMode && this.metaDataForm.invalid">
   {{editMode ? 'Collapse extended form' : 'Edit'}}
 </button>
 <pre>{{item | json}}</pre>

@@ -6,7 +6,9 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Item } from '../item.model';
@@ -15,23 +17,26 @@ import { OpenGraphService } from '../../../_general/openGraph/open-graph.service
 import { Observable } from 'rxjs';
 /* tslint:enable:max-line-length */
 import * as _ from 'lodash';
+import { Tag } from '../../tags/tag.model';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
   selector: 'rl-items-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['editor.component.css'],
+  styleUrls: ['editor.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemsEditorComponent implements OnInit, OnChanges {
 
   @Input() item: Item;
-  @Input() tags: string[];
+  @Input() tags: Tag[];
   @Output() changed = new EventEmitter<Item>();
   @Output() cancel = new EventEmitter();
+  @ViewChild('tagsInput') tagsInputHTMLElement: ElementRef;
   mainForm: FormGroup;
   metaDataForm: FormGroup;
-  selectedTags: string[] = [];
+  selectedTags: Tag[] = [];
   editMode: boolean;
 
   readonly formDefaultValues: Item = {
@@ -54,9 +59,12 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges (changes: SimpleChanges): void {
-    if (!_.isEqual(changes['item'].currentValue,
-        changes['item'].previousValue)) {
-      this.setNewFormValue(this.item);
+    const itemChange = changes['item'];
+    if (itemChange) {
+      this.selectedTags = _.cloneDeep(itemChange.currentValue.tags);
+      if (!_.isEqual(itemChange.currentValue, itemChange.previousValue)) {
+        this.setNewFormValue(this.item);
+      }
     }
   }
 
@@ -143,6 +151,36 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     this.selectedTags = [];
   }
 
+  searchTag = (text$: Observable<string>) => {
+    return text$
+      .debounceTime(200)
+      .distinctUntilChanged()
+      .map(term => {
+        if (term.length < 1) {
+          return [];
+        }
+        return this.tags
+          .filter(tag => new RegExp(term, 'gi').test(tag.name))
+          .filter(tag => {
+            return !this.selectedTags
+              .find(selectedTag => selectedTag._id === tag._id);
+          })
+          .splice(0, 10);
+      });
+  }
+
+  tagInputFormatter = (tag: Tag) => tag.name;
+
+  tagsInputSelectedEvent = (event: NgbTypeaheadSelectItemEvent) => {
+    const selectedTag: Tag = event.item;
+    this.selectedTags.push(selectedTag);
+    event.preventDefault();
+    this.tagsInputHTMLElement.nativeElement.value = '';
+  }
+
+  removeTag (tagToRemove: Tag) {
+    this.selectedTags = _.without(this.selectedTags, tagToRemove);
+  }
 
   private hasProtocol (url: string): boolean {
     if (!url) {
@@ -158,4 +196,5 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   private addProtocol (url: string): string {
     return this.hasProtocol(url) ? url : `http://${url}`;
   }
+
 }

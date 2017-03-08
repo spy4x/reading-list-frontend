@@ -1,4 +1,5 @@
 <rl-items-editor *ngIf="item"
                  [item]="item"
+                 [tags]="tags"
                  (changed)="save($event)"
                  (cancel)="cancel()"></rl-items-editor>
