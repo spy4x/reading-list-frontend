@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit, EventEmitter, Output
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Item, Priority } from '../item.model';
@@ -21,6 +21,9 @@ import { ItemEditAction } from '../../../_general/store/items/itemEdit.action';
 export class ItemsLineComponent implements OnInit {
 
   @Input() item: Item;
+  @Input() previewMode: boolean;
+  @Input() previewEditButtonDisabled: boolean;
+  @Output() previewEditButtonClick = new EventEmitter();
 
   constructor (private store: Store<State>) {
   }
