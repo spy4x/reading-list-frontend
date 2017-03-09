@@ -34,11 +34,6 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   @Output() changed = new EventEmitter<Item>();
   @Output() cancel = new EventEmitter();
   @ViewChild('tagsInput') tagsInputHTMLElement: ElementRef;
-  mainForm: FormGroup;
-  metaDataForm: FormGroup;
-  selectedTags: Tag[] = [];
-  editMode: boolean;
-
   readonly formDefaultValues: Item = {
     priority: 1,
     title: '',
@@ -47,6 +42,11 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     url: '',
     tags: []
   };
+  itemClone: Item = this.formDefaultValues;
+  mainForm: FormGroup;
+  metaDataForm: FormGroup;
+  editMode: boolean;
+
 
   constructor (private fb: FormBuilder,
                private openGraphService: OpenGraphService) {
@@ -61,9 +61,9 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   ngOnChanges (changes: SimpleChanges): void {
     const itemChange = changes['item'];
     if (itemChange) {
-      this.selectedTags = _.cloneDeep(itemChange.currentValue.tags);
+      this.itemClone = _.cloneDeep(itemChange.currentValue);
       if (!_.isEqual(itemChange.currentValue, itemChange.previousValue)) {
-        this.setNewFormValue(this.item);
+        this.setNewFormValue(this.itemClone);
       }
     }
   }
@@ -76,6 +76,7 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     });
     this.mainForm.valueChanges
       .debounceTime(450)
+      .do(formValue => this.registerItemCloneChanges(formValue))
       .map(formValue => formValue.url)
       .filter(url => !!url)
       .map(url => {
@@ -110,6 +111,9 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
       'imageUrl': [formValues.imageUrl],
       'description': [formValues.description]
     });
+    this.metaDataForm.valueChanges
+      .debounceTime(450)
+      .subscribe(formValue => this.registerItemCloneChanges(formValue));
   }
 
   setNewFormValue (newValue: Item) {
@@ -135,20 +139,7 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     if (this.isSubmitDisabled()) {
       return;
     }
-    const formValues: {url, priority, title, imageUrl, description} =
-      Object.assign({}, this.mainForm.value, this.metaDataForm.value);
-    const newItem: Item = {
-      title: formValues.title,
-      url: formValues.url,
-      imageUrl: formValues.imageUrl,
-      description: formValues.description,
-      priority: formValues.priority,
-      tags: this.selectedTags
-    };
-    this.changed.emit(newItem);
-    this.mainForm.reset(this.formDefaultValues);
-    this.metaDataForm.reset(this.formDefaultValues);
-    this.selectedTags = [];
+    this.changed.emit(this.itemClone);
   }
 
   searchTag = (text$: Observable<string>) => {
@@ -162,7 +153,7 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
         return this.tags
           .filter(tag => new RegExp(term, 'gi').test(tag.name))
           .filter(tag => {
-            return !this.selectedTags
+            return !this.itemClone.tags
               .find(selectedTag => selectedTag._id === tag._id);
           })
           .splice(0, 10);
@@ -173,13 +164,21 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
 
   tagsInputSelectedEvent = (event: NgbTypeaheadSelectItemEvent) => {
     const selectedTag: Tag = event.item;
-    this.selectedTags.push(selectedTag);
+    this.registerItemCloneChanges({
+      tags: [ ...this.itemClone.tags, selectedTag ]
+    });
     event.preventDefault();
     this.tagsInputHTMLElement.nativeElement.value = '';
   }
 
   removeTag (tagToRemove: Tag) {
-    this.selectedTags = _.without(this.selectedTags, tagToRemove);
+    this.registerItemCloneChanges({
+      tags: _.without(this.itemClone.tags, tagToRemove)
+    });
+  }
+
+  private registerItemCloneChanges (changes: any): void {
+    this.itemClone = Object.assign({}, this.itemClone, changes);
   }
 
   private hasProtocol (url: string): boolean {

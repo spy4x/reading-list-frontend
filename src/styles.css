@@ -22,6 +22,10 @@ rl-app .loading-container {
   cursor: pointer;
 }
 
+.non-clickable {
+  pointer-events: none;
+}
+
 .btn-circle {
   width: 38px;
   height: 38px;

@@ -41,47 +41,48 @@
 
 <div class="selected-tags">
   <button class="tag btn btn-sm btn-primary"
-          *ngFor="let tag of selectedTags"
+          *ngFor="let tag of itemClone.tags"
           (click)="removeTag(tag)">
     <span>{{tag.name}}</span>
     <i class="fa fa-times"></i>
   </button>
 </div>
 
-<form *ngIf="editMode" [formGroup]="metaDataForm" (ngSubmit)="submit()">
-  <hr/>
-  <div class="form-group">
-    <label for="titleInput">Title:</label>
-    <input type="text"
-           class="form-control"
-           placeholder="Enter title"
-           [formControl]="metaDataForm.controls['title']"
-           id="titleInput">
-  </div>
-  <div class="form-group">
-    <label for="imageUrlInput">Image URL:</label>
-    <input type="text"
-           class="form-control"
-           placeholder="Enter image URL"
-           [formControl]="metaDataForm.controls['imageUrl']"
-           id="imageUrlInput">
-  </div>
-  <div class="form-group">
-    <label for="descriptionInput">Description:</label>
-    <textarea class="form-control"
-              placeholder="Enter description"
-              [formControl]="metaDataForm.controls['description']"
-              id="descriptionInput"></textarea>
-  </div>
-</form>
-
 <hr/>
 
-<h4>Preview:</h4>
-<button class="btn btn-secondary"
-        (click)="editMode = !editMode"
-        [disabled]="editMode && this.metaDataForm.invalid">
-  {{editMode ? 'Collapse extended form' : 'Edit'}}
-</button>
-<pre>{{item | json}}</pre>
+<div class="preview" *ngIf="itemClone.url">
+  <h4>Preview:</h4>
+  <rl-items-line [item]="itemClone"
+                 [previewMode]="true"
+                 (previewEditButtonClick)="editMode = !editMode"
+                 [previewEditButtonDisabled]="editMode && this.metaDataForm.invalid"></rl-items-line>
 
+  <form *ngIf="editMode" [formGroup]="metaDataForm" (ngSubmit)="submit()">
+    <hr/>
+    <div class="form-group">
+      <label for="titleInput">Title:</label>
+      <input type="text"
+             class="form-control"
+             placeholder="Enter title"
+             [formControl]="metaDataForm.controls['title']"
+             id="titleInput">
+    </div>
+    <div class="form-group">
+      <label for="imageUrlInput">Image URL:</label>
+      <input type="text"
+             class="form-control"
+             placeholder="Enter image URL"
+             [formControl]="metaDataForm.controls['imageUrl']"
+             id="imageUrlInput">
+    </div>
+    <div class="form-group">
+      <label for="descriptionInput">Description:</label>
+      <textarea class="form-control"
+                placeholder="Enter description"
+                [formControl]="metaDataForm.controls['description']"
+                id="descriptionInput"
+                rows="4"></textarea>
+    </div>
+  </form>
+
+</div>
