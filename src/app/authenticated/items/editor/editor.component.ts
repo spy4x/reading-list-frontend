@@ -8,7 +8,8 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ElementRef
+  ElementRef,
+  ChangeDetectorRef
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Item } from '../item.model';
@@ -35,7 +36,7 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   @Output() cancel = new EventEmitter();
   @ViewChild('tagsInput') tagsInputHTMLElement: ElementRef;
   readonly formDefaultValues: Item = {
-    priority: 1,
+    priority: 2,
     title: '',
     imageUrl: '',
     description: '',
@@ -49,8 +50,8 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
 
 
   constructor (private fb: FormBuilder,
-               private openGraphService: OpenGraphService) {
-
+               private openGraphService: OpenGraphService,
+               private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit () {
@@ -113,7 +114,11 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     });
     this.metaDataForm.valueChanges
       .debounceTime(450)
-      .subscribe(formValue => this.registerItemCloneChanges(formValue));
+      .subscribe(formValue => {
+        this.registerItemCloneChanges(formValue);
+        // next line need to draw Preview before user blur url input
+        this.changeDetectorRef.markForCheck();
+      });
   }
 
   setNewFormValue (newValue: Item) {
@@ -165,7 +170,7 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   tagsInputSelectedEvent = (event: NgbTypeaheadSelectItemEvent) => {
     const selectedTag: Tag = event.item;
     this.registerItemCloneChanges({
-      tags: [ ...this.itemClone.tags, selectedTag ]
+      tags: [...this.itemClone.tags, selectedTag]
     });
     event.preventDefault();
     this.tagsInputHTMLElement.nativeElement.value = '';
@@ -177,7 +182,7 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
     });
   }
 
-  private registerItemCloneChanges (changes: any): void {
+  registerItemCloneChanges (changes: any): void {
     this.itemClone = Object.assign({}, this.itemClone, changes);
   }
 
