@@ -61,10 +61,6 @@ rl-app .loading-container {
   outline: 0 !important;
 }
 
-.btn-icon-right {
-  text-align: right;
-}
-
 .no-arrow.dropdown-toggle::after {
   display: none;
 }

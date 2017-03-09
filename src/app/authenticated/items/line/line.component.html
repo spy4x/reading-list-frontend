@@ -1,36 +1,47 @@
 <div [class.viewed]="item.viewedAt" class="flex-container">
   <a (click)="visitURL()" [href]="item.url" target="_blank" class="content">
 
-    <h6 class="title">
-      {{item.title}}
-    </h6>
+    <div class="image"
+         [ngStyle]="item.imageUrl ? {'background-image': 'url('+item.imageUrl+')'} : {}">
+      <img *ngIf="!item.imageUrl"
+           src="../../../../assets/item-image-placeholder.svg"
+           alt="No image for this item">
+    </div>
 
-    <div class="additional-info">
+    <div class="text">
 
-      <small class="priority text-muted">
+      <h6 class="title">
+        {{item.title}}
+      </h6>
+
+      <div class="additional-info">
+
+        <small class="priority text-muted">
         <span class="badge badge-pill"
               [ngClass]="'badge-'+getPriorityClass(item.priority)">
           {{getPriorityString(item.priority)}}
         </span>
-      </small>
+        </small>
 
-      <small *ngIf="item.tags.length" class="additional-info-separator">
-        |
-      </small>
+        <small *ngIf="item.tags.length" class="additional-info-separator">
+          |
+        </small>
 
-      <small class="tags text-muted">
+        <small class="tags text-muted">
         <span class="badge badge-primary"
               *ngFor="let tag of item.tags">
           {{tag.name}}
         </span>
-      </small>
+        </small>
+      </div>
+
     </div>
 
   </a>
 
   <div ngbDropdown class="actions">
     <button ngbDropdownToggle type="button"
-            class="btn btn-icon btn-icon-right no-arrow">
+            class="btn btn-icon no-arrow">
       <i class="fa fa-fw fa-ellipsis-v toggle-menu-icon"></i>
     </button>
     <div class="dropdown-menu dropdown-menu-right">
