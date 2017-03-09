@@ -12,7 +12,7 @@ import { TagRemoveAction } from '../../../_general/store/tags/tagRemove.action';
 @Component({
   selector: 'rl-tags-line',
   templateUrl: 'line.component.html',
-  styleUrls: ['line.component.css'],
+  styleUrls: ['line.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagsLineComponent implements OnInit {

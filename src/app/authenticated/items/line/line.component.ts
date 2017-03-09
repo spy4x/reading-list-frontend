@@ -15,7 +15,7 @@ import { ItemEditAction } from '../../../_general/store/items/itemEdit.action';
 @Component({
   selector: 'rl-items-line',
   templateUrl: 'line.component.html',
-  styleUrls: ['line.component.css'],
+  styleUrls: ['line.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemsLineComponent implements OnInit {
