@@ -16,6 +16,7 @@ import { ItemsListComponent } from './list/list.component';
 import { ItemsReadTodayComponent } from './read-today/read-today.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../_shared/shared.module';
+import { ItemsIsUrlUniqueDirective } from './itemsUrlUnique.validator';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SharedModule } from '../../_shared/shared.module';
     ItemsReadTodayComponent,
     ItemsEditComponent,
     ItemsEditorComponent,
-    ItemsHeaderComponent
+    ItemsHeaderComponent,
+    ItemsIsUrlUniqueDirective
   ],
   exports: [
     ItemsReadTodayComponent,

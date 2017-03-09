@@ -11,7 +11,12 @@ import {
   ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
 import { Item } from '../item.model';
 /* tslint:disable:max-line-length */
 import { OpenGraphService } from '../../../_general/openGraph/open-graph.service';
@@ -20,6 +25,7 @@ import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 import { Tag } from '../../tags/tag.model';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { isURL } from 'validator';
 
 
 @Component({
@@ -72,7 +78,7 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   initMainForm () {
     const formValues = this.item ? this.item : this.formDefaultValues;
     this.mainForm = this.fb.group({
-      'url': [formValues.url, Validators.required],
+      'url': [formValues.url, [Validators.required, this.isUrlValid]],
       'priority': [formValues.priority, Validators.required]
     });
     this.mainForm.valueChanges
@@ -91,6 +97,10 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
       })
       .filter(url => !this.item || url !== this.item.url)
       .distinct(url => url)
+      .filter(url => {
+        return !this.mainForm.controls['url'].errors ||
+          this.mainForm.controls['url'].errors['urlUnique'];
+      })
       .switchMap(url => this.openGraphService.parse(url))
       .catch(err => Observable.of(undefined))
       .subscribe(openGraphInfo => {
@@ -184,6 +194,20 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
 
   registerItemCloneChanges (changes: any): void {
     this.itemClone = Object.assign({}, this.itemClone, changes);
+  }
+
+  hasErrors (fc: AbstractControl): boolean {
+    return fc.errors && (fc.dirty || fc.touched);
+  }
+
+  isPreviewVisible (): boolean {
+    const errors = this.mainForm.controls['url'].errors;
+    const clone = this.itemClone;
+    return (!errors || errors['urlUnique']) && !!clone.url && !!clone.title;
+  }
+
+  private isUrlValid (fc: AbstractControl): {[key: string]: boolean} {
+    return isURL(fc.value) ? undefined : {urlValid: true};
   }
 
   private hasProtocol (url: string): boolean {
