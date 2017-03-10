@@ -61,6 +61,11 @@ import {
   ItemEditedActionHandler,
   ItemEditedActionType
 } from './items/itemEdited.action';
+import {
+  TagRemovedActionType,
+  TagRemovedActionHandler,
+  TagRemovedAction
+} from './tags/tagRemoved.action';
 
 export function DataReducer (state = INITIAL_DATA_STATE, action: Action) {
   switch (action.type) {
@@ -106,6 +111,9 @@ export function DataReducer (state = INITIAL_DATA_STATE, action: Action) {
 
     case TagRemoveActionType:
       return TagRemoveActionHandler(state, action as TagRemoveAction);
+
+    case TagRemovedActionType:
+      return TagRemovedActionHandler(state, action as TagRemovedAction);
 
     default:
       return state;
