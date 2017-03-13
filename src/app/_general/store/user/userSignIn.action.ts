@@ -11,18 +11,19 @@ import { TagsLoadedAction } from '../tags/tagsLoaded.action';
 import { Tag } from '../../../authenticated/tags/tag.model';
 import { Item } from '../../../authenticated/items/item.model';
 import { Observable } from 'rxjs';
+import { LoggerService } from '../../../_shared/logger/logger.service';
 
 export const UserSignInActionType = 'USER_SIGN_IN_ACTION';
 
 export class UserSignInAction implements Action {
   readonly type = UserSignInActionType;
 
-  constructor (public payload?: User) {
+  constructor (public payload: User) {
   }
 }
 
 export const UserSignInActionHandler = (state: UIState,
-                                          action: UserSignInAction) => {
+                                        action: UserSignInAction) => {
   return Object.assign({}, state, {user: action.payload});
 };
 
@@ -31,8 +32,16 @@ export class UserSignInActionEffect {
 
   constructor (private actions$: Actions,
                private itemsService: ItemsService,
-               private tagsService: TagsService) {
+               private tagsService: TagsService,
+               private logger: LoggerService) {
   }
+
+  @Effect({dispatch: false}) user$ = this.actions$
+    .ofType(UserSignInActionType)
+    .switchMap(action => {
+      this.logger.setUser(action.payload);
+      return Observable.of(true);
+    });
 
   @Effect() items$: Observable<Action> = this.actions$
     .ofType(UserSignInActionType)

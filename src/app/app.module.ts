@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -26,7 +26,7 @@ import { StoreReducer } from './_general/store/app.reducer';
 import { PublicModule } from './public/public.module';
 import { AuthenticatedModule } from './authenticated/authenticated.module';
 import { OpenGraphService } from './_general/openGraph/open-graph.service';
-
+import { SharedModule } from './_shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,8 @@ import { OpenGraphService } from './_general/openGraph/open-graph.service';
 
     AuthModule,
     PublicModule,
-    AuthenticatedModule
+    AuthenticatedModule,
+    SharedModule
   ],
   providers: [
     RLCookieService,

@@ -11,6 +11,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { Observable } from 'rxjs';
+import { LoggerService } from '../../../_shared/logger/logger.service';
 
 export const UserSignOutActionType = 'USER_SIGN_OUT_ACTION';
 
@@ -36,13 +37,15 @@ export class UserSignOutActionEffect {
 
   constructor (private actions$: Actions,
                private router: Router,
-               private auth: AuthService) {
+               private auth: AuthService,
+               private logger: LoggerService) {
   }
 
   @Effect({dispatch: false}) removeTails$ = this.actions$
     .ofType(UserSignOutActionType)
     .switchMap(() => {
       this.auth.signOut();
+      this.logger.setUser();
       this.router.navigate(['/public/login']);
       return Observable.of(true);
     });
