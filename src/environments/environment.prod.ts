@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  // apiUrl: 'http://toread.space:9000/'
-  apiUrl: 'http://localhost:9000/'
+  apiUrl: 'https://reading-list-backend.herokuapp.com/'
+  // apiUrl: 'http://localhost:9000/'
 };
