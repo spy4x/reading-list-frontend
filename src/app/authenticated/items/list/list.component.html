@@ -1,6 +1,2 @@
-<h4 *ngIf="!items">Items loading...</h4>
-<h4 *ngIf="items && !items.length" align="center">
-  No items yet. <a [routerLink]="['add']">Create</a>
-</h4>
 <h4>All items:</h4>
 <rl-items-line *ngFor="let item of items" [item]="item"></rl-items-line>
