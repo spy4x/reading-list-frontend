@@ -27,10 +27,10 @@ export class ItemsListComponent implements OnInit, OnChanges {
 
   ngOnChanges (changes: SimpleChanges): void {
     this.sortedItems = this.items.sort((item1, item2) => {
-      if (item1.createdAt > item2.createdAt) {
+      if (item1.createdAt < item2.createdAt) {
         return 1;
       }
-      if (item1.createdAt < item2.createdAt) {
+      if (item1.createdAt > item2.createdAt) {
         return -1;
       }
       // else compare titles
