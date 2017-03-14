@@ -15,7 +15,10 @@ export class ItemAddedAction implements Action {
 
 export const ItemAddedActionHandler = (state: DataState,
                                        action: ItemAddedAction) => {
-  const tagIds = action.payload.tags.map(tag => tag._id);
+  const addedItem = action.payload;
+  const itemsMap = new Map<string, Item>(state.items);
+  itemsMap.set(addedItem._id, addedItem);
+  const tagIds = addedItem.tags.map(tag => tag._id);
   const tagsMap = new Map<string, Tag>();
   Array.from(state.tags.values()).forEach((tag: Tag) => {
     if (_.includes(tagIds, tag._id)) {
@@ -26,5 +29,5 @@ export const ItemAddedActionHandler = (state: DataState,
       tagsMap.set(tag._id, tag);
     }
   });
-  return Object.assign({}, state, {tags: tagsMap});
+  return Object.assign({}, state, {tags: tagsMap, items: itemsMap});
 };
