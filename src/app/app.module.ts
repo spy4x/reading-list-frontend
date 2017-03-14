@@ -1,5 +1,5 @@
 /* tslint:disable:max-line-length */
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +7,6 @@ import { StoreModule } from '@ngrx/store';
 import { RouterStoreModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-
 import { UserSignInActionEffect } from './_general/store/user/userSignIn.action';
 import { UserSignOutActionEffect } from './_general/store/user/userSignOut.action';
 import { ItemAddActionEffect } from './_general/store/items/itemAdd.action';
@@ -16,10 +15,8 @@ import { ItemRemoveActionEffect } from './_general/store/items/itemRemove.action
 import { TagAddActionEffect } from './_general/store/tags/tagAdd.action';
 import { TagEditActionEffect } from './_general/store/tags/tagEdit.action';
 import { TagRemoveActionEffect } from './_general/store/tags/tagRemove.action';
-
 import { LoggedInGuard } from './_general/auth/loggedIn.guard';
 import { NotLoggedInGuard } from './_general/auth/notLoggedIn.guard';
-import { RLCookieService } from './_general/cookie/cookie.service';
 import { AppComponent } from './app.component';
 import { AuthModule } from './_general/auth/auth.module';
 import { StoreReducer } from './_general/store/app.reducer';
@@ -58,7 +55,6 @@ import { SharedModule } from './_shared/shared.module';
     SharedModule
   ],
   providers: [
-    RLCookieService,
     NotLoggedInGuard,
     LoggedInGuard,
     OpenGraphService
@@ -68,6 +64,11 @@ import { SharedModule } from './_shared/shared.module';
 export class AppModule {
 
   static readonly routes: Routes = [
+    {
+      path: 'auth/token/:token',
+      component: AuthModule.tokenInterceptorComponent
+    },
+
     {
       path: 'public',
       component: PublicModule.routeRootComponent,
