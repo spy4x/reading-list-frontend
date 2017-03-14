@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { RequestOptions, Http } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { AuthService } from './auth.service';
+/* tslint:disable:max-line-length */
+import { TokenInterceptorComponent } from './token-interceptor/token-interceptor.component';
+/* tslint:enable:max-line-length */
 
 // authFactory's && authProvider's specification shouldn't be changed
 //   because it affects AOT build
@@ -29,7 +32,8 @@ export const authProvider = {
     authProvider,
     AuthService
   ],
-  declarations: []
+  declarations: [TokenInterceptorComponent]
 })
 export class AuthModule {
+  static tokenInterceptorComponent = TokenInterceptorComponent;
 }
