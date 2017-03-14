@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { tokenNotExpired } from 'angular2-jwt';
+import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
+import { User } from './user.model';
 
 @Injectable()
 export class AuthService {
@@ -26,5 +27,7 @@ export class AuthService {
     localStorage.setItem(AuthService.tokenKey, token);
   }
 
-
+  getUserFromTokenPayload (): User {
+    return new JwtHelper().decodeToken(this.getToken());
+  }
 }
