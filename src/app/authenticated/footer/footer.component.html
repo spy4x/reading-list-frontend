@@ -3,21 +3,22 @@
     <rl-user-menu></rl-user-menu>
     <a class="nav-item nav-link"
        [routerLink]="['/dashboard']"
-       [routerLinkActive]="['active']"
+       [routerLinkActive]="['text-warning']"
        align="center"
        title="Dashboard">
       <i class="fa fa-area-chart"></i>
     </a>
     <a class="nav-item nav-link"
        [routerLink]="['/']"
-       [routerLinkActive]="['active']"
+       [routerLinkActive]="['text-warning']"
+       [routerLinkActiveOptions]="{exact: true}"
        align="center"
        title="Items">
       <i class="fa fa-list"></i>
     </a>
     <a class="nav-item nav-link"
        [routerLink]="['/tags']"
-       [routerLinkActive]="['active']"
+       [routerLinkActive]="['text-warning']"
        align="center"
        title="Tags">
       <i class="fa fa-tags"></i>
