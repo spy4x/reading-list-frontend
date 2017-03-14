@@ -4,4 +4,9 @@
 
 <hr/>
 
-<rl-items-read-today [items]="items"></rl-items-read-today>
+<h4 *ngIf="items && !items.length" align="center">
+  No items yet. <a [routerLink]="['/items/add']">Create</a>
+</h4>
+
+  <rl-items-read-today *ngIf="items && items.length"
+                       [items]="items"></rl-items-read-today>
