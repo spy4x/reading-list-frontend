@@ -3,6 +3,5 @@
 </h4>
 
 <div *ngIf="tags && tags.length">
-  <h4>All tags:</h4>
   <rl-tags-line *ngFor="let tag of tags" [tag]="tag"></rl-tags-line>
 </div>
