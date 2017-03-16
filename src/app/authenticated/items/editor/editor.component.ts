@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,14 +19,15 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { Item } from '../item.model';
-/* tslint:disable:max-line-length */
 import { OpenGraphService } from '../../../_general/openGraph/open-graph.service';
 import { Observable } from 'rxjs';
-/* tslint:enable:max-line-length */
 import * as _ from 'lodash';
 import { Tag } from '../../tags/tag.model';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { isURL } from 'validator';
+import { IntroConfig } from '../../../_shared/_services/introduce/introduce.service';
+import { itemsLineComponentIntroConfig } from '../line/line.component';
+/* tslint:enable:max-line-length */
 
 
 @Component({
@@ -226,3 +228,31 @@ export class ItemsEditorComponent implements OnInit, OnChanges {
   }
 
 }
+
+export const itemsEditorComponentIntroConfig: IntroConfig = {
+  steps: [
+    ...itemsLineComponentIntroConfig.steps
+  ],
+  hints: [
+    {
+      element: 'rl-items-editor input#urlInput',
+      hint: 'Enter link url here and it will be parsed automatically for' +
+      ' title, image and description',
+      hintPosition: 'top-middle',
+      position: 'bottom'
+    },
+    {
+      element: 'rl-items-editor input#tagsInput',
+      hint: 'Start writing tag name to autocomplete it',
+      hintPosition: 'top-middle',
+      position: 'bottom'
+    },
+    {
+      element: 'rl-items-editor .preview-hint',
+      hint: 'This is how item will look like',
+      hintPosition: 'top-left',
+      position: 'auto'
+    },
+    ...itemsLineComponentIntroConfig.hints
+  ]
+};

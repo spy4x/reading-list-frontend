@@ -4,4 +4,5 @@ export interface User {
   avatarURL: string;
   email: string;
   googleId: string;
+  createdAt: string;
 }

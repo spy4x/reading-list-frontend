@@ -5,7 +5,19 @@
        width="30"
        height="30"/>
   <div class="dropdown-menu">
-    <a class="dropdown-item" [routerLink]="['/about']">About</a>
-    <a class="dropdown-item" (click)="signOut()">Sign out</a>
+    <a class="dropdown-item" (click)="showHints()">
+      <i class="fa fa-fw fa-info"></i>
+      <span>
+        {{isAnyHintVisible() ? 'Hide hints' : 'Show hints for this page'}}
+      </span>
+    </a>
+    <a class="dropdown-item" [routerLink]="['/about']">
+      <i class="fa fa-fw fa-comment-o"></i>
+      <span>About</span>
+    </a>
+    <a class="dropdown-item" (click)="signOut()">
+      <i class="fa fa-fw fa-sign-out"></i>
+      <span>Sign out</span>
+    </a>
   </div>
 </div>

@@ -7,6 +7,7 @@ import { SharedHeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { EditorHeaderComponent } from './editor-header/header.component';
 import { LoggerService } from './logger/logger.service';
+import { IntroduceService } from './_services/introduce/introduce.service';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { LoggerService } from './logger/logger.service';
   ],
   providers: [
     LoggerService,
+    IntroduceService,
     { provide: ErrorHandler, useClass: LoggerService }
   ]
 })

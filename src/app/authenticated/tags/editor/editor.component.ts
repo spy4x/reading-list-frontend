@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,7 +11,8 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Tag } from '../tag.model';
-
+import { IntroConfig } from '../../../_shared/_services/introduce/introduce.service';
+/* tslint:enable:max-line-length */
 
 @Component({
   selector: 'rl-tags-editor',
@@ -67,3 +69,16 @@ export class TagsEditorComponent implements OnInit, OnChanges {
     this.form.reset(this.formDefaultValues);
   }
 }
+
+export const tagsEditorComponentIntroConfig: IntroConfig = {
+  steps: [],
+  hints: [
+    {
+      element: 'rl-tags-editor input#nameInput',
+      hint: 'Enter tag name. Recommendations: use lowercase, dashes instead' +
+      ' of spaces, keep it short and simple.',
+      hintPosition: 'top-middle',
+      position: 'bottom'
+    }
+  ]
+};

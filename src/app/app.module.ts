@@ -24,6 +24,7 @@ import { PublicModule } from './public/public.module';
 import { AuthenticatedModule } from './authenticated/authenticated.module';
 import { OpenGraphService } from './_general/openGraph/open-graph.service';
 import { SharedModule } from './_shared/shared.module';
+import { ToggleHintsActionEffect } from './_general/store/ui/toggleHints.action';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,8 @@ import { SharedModule } from './_shared/shared.module';
     EffectsModule.run(TagAddActionEffect),
     EffectsModule.run(TagEditActionEffect),
     EffectsModule.run(TagRemoveActionEffect),
+
+    EffectsModule.run(ToggleHintsActionEffect),
 
     RouterStoreModule.connectRouter(),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),

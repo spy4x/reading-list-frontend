@@ -9,12 +9,12 @@
          [ngStyle]="item.imageUrl ? {'background-image': 'url('+item.imageUrl+')'} : {}">
       <img *ngIf="!item.imageUrl"
            src="../../../../assets/item-image-placeholder.svg"
-           alt="No image for this item">
+           alt="No image for this link">
     </div>
 
     <div class="text">
 
-      <h6 class="title">
+      <h6 class="title" [class.title-hint]="!previewMode">
         {{item.title}}
       </h6>
 
@@ -22,6 +22,7 @@
 
         <small class="priority text-muted">
         <span class="badge badge-pill"
+              [class.priority-hint]="!previewMode"
               [ngClass]="'badge-'+getPriorityClass(item.priority)">
           {{getPriorityString(item.priority)}}
         </span>
@@ -33,6 +34,7 @@
 
         <small class="tags text-muted">
         <span class="badge badge-primary"
+              [class.tag-hint]="!previewMode"
               *ngFor="let tag of item.tags">
           {{tag.name}}
         </span>
@@ -45,7 +47,7 @@
 
   <div *ngIf="!previewMode" ngbDropdown class="actions">
     <button ngbDropdownToggle type="button"
-            class="btn btn-icon no-arrow">
+            class="btn btn-icon no-arrow dropdown-toggle">
       <i class="fa fa-fw fa-ellipsis-v toggle-menu-icon"></i>
     </button>
     <div class="dropdown-menu dropdown-menu-right">
@@ -71,7 +73,7 @@
 
   <div *ngIf="previewMode" class="actions">
     <button type="button"
-            class="btn btn-icon no-arrow"
+            class="btn btn-icon no-arrow preview-button"
             (click)="previewEditButtonClick.emit()"
             [disabled]="previewEditButtonDisabled">
       <i class="fa fa-fw fa-pencil toggle-menu-icon"></i>

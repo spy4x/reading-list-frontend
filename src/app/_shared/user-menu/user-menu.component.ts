@@ -4,8 +4,9 @@ import { User } from '../../_general/auth/user.model';
 import { UIState, State } from '../../_general/store/app.state';
 /* tslint:disable:max-line-length */
 import { UserSignOutAction } from '../../_general/store/user/userSignOut.action';
-import { ActivatedRoute, UrlSegment, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ToggleHintsAction } from '../../_general/store/ui/toggleHints.action';
+import { IntroConfig } from '../_services/introduce/introduce.service';
 /* tslint:enable:max-line-length */
 
 @Component({
@@ -15,30 +16,46 @@ import { Subscription } from 'rxjs';
 })
 export class UserMenuComponent implements OnInit, OnDestroy {
   user: User;
-  url: any;
+  hintsVisible: boolean;
+  uiStateSub: Subscription;
 
-  private routeParamsSub: Subscription;
-
-  constructor (private store: Store<State>,
-               private route: ActivatedRoute,
-               private router: Router) {
+  constructor (private store: Store<State>) {
   }
 
   ngOnInit () {
-    this.routeParamsSub = this.route.url
-      .combineLatest(this.store.select('ui'))
-      .subscribe((values: [UrlSegment[], UIState]) => {
-        this.url = this.router.url;
-        this.user = values[1].user;
+    this.uiStateSub = this.store.select<UIState>('ui')
+      .subscribe(uiState => {
+        this.user = uiState.user;
+        this.hintsVisible = uiState.hintsVisible;
       });
   }
 
   ngOnDestroy () {
-    this.routeParamsSub.unsubscribe();
+    this.uiStateSub.unsubscribe();
   }
 
   signOut (): void {
     this.store.dispatch(new UserSignOutAction());
   }
 
+  showHints (): void {
+    this.store.dispatch(new ToggleHintsAction(!this.isAnyHintVisible()));
+  }
+
+  isAnyHintVisible (): boolean {
+    const selector = '.introjs-hint:not(.introjs-hidehint)';
+    const isAnyHintvisible = !!document.querySelector(selector);
+    return this.hintsVisible && isAnyHintvisible;
+  }
+
 }
+
+export const userMenuComponentIntroConfig: IntroConfig = {
+  steps: [],
+  hints: [{
+    element: 'rl-user-menu img',
+    hint: 'Here you can get help via hints, read about the app and sign out',
+    hintPosition: 'top-middle',
+    position: 'auto'
+  }]
+};

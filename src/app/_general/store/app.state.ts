@@ -5,7 +5,8 @@ import { RouterState } from '@ngrx/router-store';
 
 export type UIState = {
   user: User,
-  filter: string
+  filter: string,
+  hintsVisible: boolean
 };
 
 export type DataState = {
@@ -25,7 +26,8 @@ export const INITIAL_DATA_STATE: DataState = {
 };
 export const INITIAL_UI_STATE: UIState = {
   user: undefined,
-  filter: ''
+  filter: '',
+  hintsVisible: false
 };
 
 export const INITIAL_STATE: State = {
