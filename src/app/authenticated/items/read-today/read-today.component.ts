@@ -55,8 +55,8 @@ export const itemsReadTodayComponentIntroConfig: IntroConfig = {
   hints: [
     {
       element: 'rl-items-read-today .component-title',
-      hint: 'Read today section suggests most highest priority links in' +
-      ' random order, so you don\'t need to guess what to read right now',
+      hint: 'Read today section suggests the highest priority links in' +
+      ' random order, so you don\'t need to wonder what to read right now',
       hintPosition: 'top-left',
       position: 'auto'
     },

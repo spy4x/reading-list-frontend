@@ -243,7 +243,8 @@ export const itemsEditorComponentIntroConfig: IntroConfig = {
     },
     {
       element: 'rl-items-editor input#tagsInput',
-      hint: 'Start writing tag name to autocomplete it',
+      hint: 'Start writing tag name to autocomplete it or create new tag' +
+      ' (Work in progress)',
       hintPosition: 'top-middle',
       position: 'bottom'
     },
