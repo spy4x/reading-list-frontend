@@ -78,7 +78,7 @@
 <hr/>
 
 <div class="preview" *ngIf="isPreviewVisible()">
-  <h4>Preview:</h4>
+  <h4 class="preview-hint">Preview:</h4>
   <rl-items-line [item]="itemClone"
                  [previewMode]="true"
                  (previewEditButtonClick)="editMode = !editMode"

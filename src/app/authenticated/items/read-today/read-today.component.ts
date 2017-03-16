@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +8,9 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { Item } from '../item.model';
+import { IntroConfig } from '../../../_shared/_services/introduce/introduce.service';
+import { itemsLineComponentIntroConfig } from '../line/line.component';
+/* tslint:enable:max-line-length */
 
 @Component({
   selector: 'rl-items-read-today',
@@ -43,3 +47,19 @@ export class ItemsReadTodayComponent implements OnInit, OnChanges {
   }
 
 }
+
+export const itemsReadTodayComponentIntroConfig: IntroConfig = {
+  steps: [
+    ...itemsLineComponentIntroConfig.steps
+  ],
+  hints: [
+    {
+      element: 'rl-items-read-today .component-title',
+      hint: 'Read today section suggests most highest priority links in' +
+      ' random order, so you don\'t need to guess what to read right now',
+      hintPosition: 'top-left',
+      position: 'auto'
+    },
+    ...itemsLineComponentIntroConfig.hints
+  ]
+};

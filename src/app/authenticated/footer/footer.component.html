@@ -1,14 +1,14 @@
 <nav class="navbar fixed-bottom navbar-light bg-faded">
   <div class="nav navbar-nav justify-content-around">
     <rl-user-menu></rl-user-menu>
-    <a class="nav-item nav-link"
+    <a class="nav-item nav-link dashboard-link"
        [routerLink]="['/dashboard']"
        [routerLinkActive]="['text-warning']"
        align="center"
        title="Dashboard">
       <i class="fa fa-area-chart"></i>
     </a>
-    <a class="nav-item nav-link"
+    <a class="nav-item nav-link items-link"
        [routerLink]="['/']"
        [routerLinkActive]="['text-warning']"
        [routerLinkActiveOptions]="{exact: true}"
@@ -16,7 +16,7 @@
        title="Items">
       <i class="fa fa-list"></i>
     </a>
-    <a class="nav-item nav-link"
+    <a class="nav-item nav-link tags-link"
        [routerLink]="['/tags']"
        [routerLinkActive]="['text-warning']"
        align="center"

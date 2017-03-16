@@ -1,4 +1,4 @@
-/* tslint:disable:max-classes-per-file */
+/* tslint:disable:max-classes-per-file max-line-length */
 import { Action } from '@ngrx/store';
 import { User } from '../../auth/user.model';
 import { UIState } from '../app.state';
@@ -12,6 +12,9 @@ import { Tag } from '../../../authenticated/tags/tag.model';
 import { Item } from '../../../authenticated/items/item.model';
 import { Observable } from 'rxjs';
 import { LoggerService } from '../../../_shared/logger/logger.service';
+import { ToggleHintsAction } from '../ui/toggleHints.action';
+import { IntroduceService } from '../../../_shared/_services/introduce/introduce.service';
+/* tslint:enable:max-line-length */
 
 export const UserSignInActionType = 'USER_SIGN_IN_ACTION';
 
@@ -33,15 +36,19 @@ export class UserSignInActionEffect {
   constructor (private actions$: Actions,
                private itemsService: ItemsService,
                private tagsService: TagsService,
-               private logger: LoggerService) {
+               private logger: LoggerService,
+               private introduceService: IntroduceService) {
   }
 
-  @Effect({dispatch: false}) user$ = this.actions$
+  @Effect() user$ = this.actions$
     .ofType(UserSignInActionType)
-    .switchMap(action => {
-      this.logger.setUser(action.payload);
-      return Observable.of(true);
-    });
+    .map(action => {
+      const user: User = action.payload;
+      this.logger.setUser(user);
+      return this.introduceService.shouldShowHintsForNewUser(user);
+    })
+    .filter(showGreeting => showGreeting)
+    .map(() => new ToggleHintsAction(true));
 
   @Effect() items$: Observable<Action> = this.actions$
     .ofType(UserSignInActionType)

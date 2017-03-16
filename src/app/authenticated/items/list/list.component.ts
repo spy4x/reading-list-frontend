@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +8,9 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { Item } from '../item.model';
+import { IntroConfig } from '../../../_shared/_services/introduce/introduce.service';
+import { itemsLineComponentIntroConfig } from '../line/line.component';
+/* tslint:enable:max-line-length */
 
 @Component({
   selector: 'rl-items-list',
@@ -39,3 +43,12 @@ export class ItemsListComponent implements OnInit, OnChanges {
   }
 
 }
+
+export const itemsListComponentIntroConfig: IntroConfig = {
+  steps: [
+    ...itemsLineComponentIntroConfig.steps
+  ],
+  hints: [
+    ...itemsLineComponentIntroConfig.hints
+  ]
+};

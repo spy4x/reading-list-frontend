@@ -2263,6 +2263,10 @@ interpret@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.1.tgz#d579fb7f693b858004947af39fa0db49f795602c"
 
+intro.js@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/intro.js/-/intro.js-2.4.0.tgz#706e8c59669e82b5dc6d22e18ffff989757e9d01"
+
 invariant@^2.2.0:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"

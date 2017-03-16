@@ -2,7 +2,7 @@
 
 [ ![Codeship Status for antonshubin/reading-list](https://app.codeship.com/projects/295ceff0-893d-0134-c96d-566d2d10b6b9/status?branch=master)](https://app.codeship.com/projects/184160)
 
-Backend repo: https://github.com/antonshubin/reading-list-backend
+Backend repo: https://github.com/spy4x/reading-list-backend
 
 More about App structure: https://github.com/antonshubin/reading-list-frontend/wiki/App-structure
 

@@ -1,16 +1,20 @@
+/* tslint:disable:max-line-length */
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit, EventEmitter, Output
+  OnInit,
+  EventEmitter,
+  Output
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Item, Priority } from '../item.model';
 import { State } from '../../../_general/store/app.state';
-/* tslint:disable:max-line-length */
+
 import { ItemRemoveAction } from '../../../_general/store/items/itemRemove.action';
-/* tslint:enable:max-line-length */
 import { ItemEditAction } from '../../../_general/store/items/itemEdit.action';
+import { IntroConfig } from '../../../_shared/_services/introduce/introduce.service';
+/* tslint:enable:max-line-length */
 
 @Component({
   selector: 'rl-items-line',
@@ -66,3 +70,42 @@ export class ItemsLineComponent implements OnInit {
     }
   }
 }
+
+export const itemsLineComponentIntroConfig: IntroConfig = {
+  steps: [],
+  hints: [
+    {
+      element: 'rl-items-line .dropdown-toggle',
+      hint: 'More actions with link',
+      hintPosition: 'top-middle',
+      position: 'auto'
+    },
+    {
+      element: 'rl-items-line .text .title-hint',
+      hint: 'Click on link\'s title to open it in new browser tab',
+      hintPosition: 'top-middle',
+      position: 'auto'
+    },
+    {
+      element: 'rl-items-line .text .tag-hint',
+      hint: 'Click on link\'s tag to search for other links with this tag' +
+      ' (Work in progress)',
+      hintPosition: 'top-middle',
+      position: 'auto'
+    },
+    {
+      element: 'rl-items-line .text .priority-hint',
+      hint: 'Click on link\'s priority to search for other links with this ' +
+      'priority (Work in progress)',
+      hintPosition: 'top-middle',
+      position: 'auto'
+    },
+    {
+      element: 'rl-items-line .preview-button',
+      hint: 'Click to edit title, image URL and description of link',
+      hintPosition: 'top-left',
+      position: 'auto'
+    }
+  ]
+};
+

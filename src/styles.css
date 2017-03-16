@@ -1,4 +1,6 @@
 @import '~bootstrap/dist/css/bootstrap.css';
+@import '~intro.js/introjs.css';
+@import '~intro.js/themes/introjs-modern.css';
 @font-face {
   font-family: dadhand;
   src: url(assets/dadhand.ttf);
@@ -112,3 +114,31 @@ a, a:focus, a:hover {
 }
 
 /* .rl-header END */
+
+.introjs-tooltip {
+  background-color: rgba(000, 0, 0, 0.86);
+  min-width: 300px;
+}
+.introjs-hintReference .introjs-tooltip {
+  min-width: 150px;
+}
+
+.introjs-tooltip, .introjs-button  {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 1rem;
+}
+
+.introjs-overlay {
+  z-index: 10000;
+}
+
+.introjs-hints .introjs-hint {
+  z-index: 10001;
+}
+
+.introjs-hint-dot{
+  background-color: rebeccapurple;
+}
+.introjs-hint-pulse {
+  background-color: rebeccapurple;
+}
