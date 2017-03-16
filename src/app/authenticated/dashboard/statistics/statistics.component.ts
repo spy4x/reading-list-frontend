@@ -25,6 +25,6 @@ export const statisticsComponentIntroConfig: IntroConfig = {
     hint: 'There will be some useful statistics about how do you collect' +
     ' links and how often do you view them (Work in progress)',
     hintPosition: 'top-middle',
-    position: 'auto'
+    position: 'bottom'
   }]
 };
